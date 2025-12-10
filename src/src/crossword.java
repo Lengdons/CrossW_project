@@ -1,5 +1,10 @@
 package src;
 
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import db.database;
+
 import javax.swing.JOptionPane;
 
 public class crossword {
@@ -21,6 +26,12 @@ public class crossword {
 	}
 	
 	public static void main(String[] args) {
+		
+		Connection conn = database.getConnection();
+		if (conn != null) {
+            System.out.println("Savienojums veiksmigs");
+        }
+		
 		String a = JOptionPane.showInputDialog(null, "1 - Veidot savu crossword \n2 - Izveleties gatavu crossword");
 		
 		switch (a) {
