@@ -1,0 +1,5 @@
+- [ ] Izveidot mysql ar vārdnīcu (vārdi + definīcijas)
+- [ ] Izveidot  konkrētu lielumu x*x laukuma izmēru, kurā ietilps krustvārdu mīklas
+- [ ] ⁠Parādās veritkālas un horizontālas tukšās ailes
+- [ ] ⁠Zem ailes rādas vārdu definīcijas pēc kurām jāievada pareizais vārds krustvārdu mīklā
+- [ ] Vairākas valodas
