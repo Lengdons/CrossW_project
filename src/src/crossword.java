@@ -44,3 +44,79 @@ public class crossword {
 	}
 }
 }
+
+
+/*
+import java.util.Scanner;
+
+class Main {
+
+    public static void gridv(String cw){
+        // System.out.println(cw);
+        for(int i=0; i<cw.length(); i++){
+            for(int j=0; j<1; j++){
+                System.out.print("[]");
+            }
+            System.out.println();
+        }
+    }
+   /* public static void ver(){
+        System.out.println("verti"); 
+    } /
+
+
+
+    public static void gridh(String cw){
+        // System.out.println(cw);
+        for(int i=0; i<1; i++){
+            for(int j=0; j<cw.length(); j++){
+                System.out.print("[]");
+            }
+            System.out.println();
+        }
+    }
+    / public static void horz(){
+        System.out.println("horiz");
+    } /
+
+
+    public static void random(int n) {
+        do{
+        int a = (int)((Math.random()100)+1);
+        n--;
+        // System.out.print(a+" "+a%2);
+
+        if(a%2==0){
+            //ver();
+            gridv(vards());
+        }else{
+            //horz();
+            gridh(vards());
+        }
+
+        }while(n>0);
+
+    }
+
+    public static String vards(){
+        String cw=" ", def;
+        int time = (int)((Math.random()*4)+1);
+        switch(time) {
+            case 1: cw = "banans"; def = "dzeltens"; break;
+            case 2: cw = "apelsins"; def = "oranza krasa"; break;
+            case 3: cw = "abols"; def = "aug koka"; break;
+            case 4: cw = "mandarins"; def = "oranza krasa bet mazaks"; break;
+        }
+        return cw; //with String[] or with class vards(cw, def)
+    }
+
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Ievadi vardu skaitu");
+        int n = scan.nextInt();
+        random(n);
+        scan.close();
+    }
+}
+*/
