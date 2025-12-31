@@ -1,3 +1,7 @@
+Lai iegūtu vārdus priekš SQL ir japalaiž ši komandu rinda, kas izveido xml failu ar nosaukumu "mlvv_2024_1_tei":
+
+curl.exe -O https://repository.clarin.lv/repository/xmlui/bitstream/handle/20.500.12574/95/mlvv_2024_1_tei.xml
+
 Lai izmantotu datubāzi ir nepieciešams ielādēt xampp. Pēc tam atvērt xampp un uzspiest Start uz MySQL.
 
 
