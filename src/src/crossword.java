@@ -1,28 +1,60 @@
 package src;
 
 import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import db.database;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+
+import db.database;
 
 public class crossword {
 
 	public static void veidot() {
-		StringBuilder build = new StringBuilder();
-		for (int i=0; i<10; i++) {
-			for (int j=0; j<10; j++) {
-				build.append("⬜ \t");
-			}
-			build.append("\n");
+		String a, teksts, msg;
+		ArrayList<String> vards = new ArrayList<>();
+		do {
+		teksts = String.join("\n", vards);
+		
+		if(teksts.isEmpty())
+			msg = "Ieraksti vardu";
+		else
+			msg = teksts+"\nIeraksti vardu";
+		
+		
+		a = JOptionPane.showInputDialog(null, msg);
+		
+		if(a != null) {
+			a = a.trim();
+		if(!a.isEmpty()) 
+			vards.add(a);
 		}
-		JOptionPane.showMessageDialog(null, build.toString());
+		
+		if (a == null && vards.isEmpty())
+			JOptionPane.showMessageDialog(null, "Ievadi vismaz vienu vardu", "Opa", JOptionPane.ERROR_MESSAGE);
+			
+		
+		}while(a != null || vards.isEmpty()); 
+		
+		do {
+		a = JOptionPane.showInputDialog(null, teksts+"\nKuru no siem vardiem velies dzest? (Atstaj tuksu lai ietu uz prieksu");
+		}while(a.isEmpty());
 	}
+	
+//	StringBuilder build = new StringBuilder();
+//	for (int i=0; i<10; i++) {
+//		for (int j=0; j<10; j++) {
+//			build.append("⬜ \t");
+//		}
+//		build.append("\n");
+//	}
+//	JOptionPane.showMessageDialog(null, build.toString());
+	
+	// kods lai izveidotu tabulu uz joptionpane
+	
+	
 	
 	public static void izveleties() {
 		String a = JOptionPane.showInputDialog(null, "1 - Vieglu 2 - Videju 3 - Grutu");
-		
 	}
 	
 	public static void main(String[] args) {
