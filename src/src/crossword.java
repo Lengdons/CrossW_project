@@ -36,8 +36,10 @@ public class crossword {
 		}while(a != null || vards.isEmpty()); 
 		
 		do {
-		a = JOptionPane.showInputDialog(null, teksts+"\nKuru no siem vardiem velies dzest? (Atstaj tuksu lai ietu uz prieksu");
-		}while(a.isEmpty());
+		a = JOptionPane.showInputDialog(null, teksts+"\nKuru no siem vardiem velies dzest?");
+		vards.remove(a);
+		teksts = String.join("\n", vards);
+		}while(a!=null);
 	}
 	
 //	StringBuilder build = new StringBuilder();
