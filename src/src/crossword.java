@@ -30,7 +30,7 @@ public class crossword {
 		}
 		
 		if (a == null && vards.isEmpty())
-			JOptionPane.showMessageDialog(null, "Ievadi vismaz vienu vardu", "Opa", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Ievadi vismaz vienu vardu", "Opa", JOptionPane.WARNING_MESSAGE);
 			
 		
 		}while(a != null || vards.isEmpty()); 
@@ -46,10 +46,29 @@ public class crossword {
 		//definition
 		
 		ArrayList<String> definicijas = new ArrayList<>();
+		String def="";
+		
 		for(int i=0; i<vards.size(); i++) {
 		a = JOptionPane.showInputDialog(null , vards.get(i)+"\nIevadi definiciju prieks si varda");
 		definicijas.add(a);
+		def = def+(i+1+". "+definicijas.get(i)+"\n");
 		}
+		
+		//edit
+		
+		do {
+		a = JOptionPane.showInputDialog(def+"\nKuru no siem definicijam velies rediget?");
+		int b = Integer.parseInt(a)-1;
+		definicijas.get(b);
+		
+		a = (String) JOptionPane.showInputDialog(null, "Redige definiciju prieks "+vards.get(b), "Rediget", JOptionPane.QUESTION_MESSAGE, null, null, definicijas.get(b));
+		definicijas.set(b, a);
+		
+		def = ""; //lai attiritu ieprieksejas definicijas
+		for(int i=0; i<definicijas.size(); i++) //ielikt jaunas definicijas
+			def = def+(i+1+". "+definicijas.get(i)+"\n");
+		
+		}while(a!=null);
 	}
 	
 //	StringBuilder build = new StringBuilder();
