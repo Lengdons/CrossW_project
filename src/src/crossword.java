@@ -13,7 +13,7 @@ public class crossword {
 		String a, teksts, msg;
 		ArrayList<String> vards = new ArrayList<>();
 		do {
-		teksts = String.join("\n", vards);
+		teksts = String.join("\n", vards); //lieto lai nebutu [] un , kas rodas ja izmanto arraylist bez atseviska string
 		
 		if(teksts.isEmpty())
 			msg = "Ieraksti vardu";
@@ -35,11 +35,21 @@ public class crossword {
 		
 		}while(a != null || vards.isEmpty()); 
 		
+		//delete 
+		
 		do {
 		a = JOptionPane.showInputDialog(null, teksts+"\nKuru no siem vardiem velies dzest?");
 		vards.remove(a);
 		teksts = String.join("\n", vards);
 		}while(a!=null);
+		
+		//definition
+		
+		ArrayList<String> definicijas = new ArrayList<>();
+		for(int i=0; i<vards.size(); i++) {
+		a = JOptionPane.showInputDialog(null , vards.get(i)+"\nIevadi definiciju prieks si varda");
+		definicijas.add(a);
+		}
 	}
 	
 //	StringBuilder build = new StringBuilder();
