@@ -11,21 +11,22 @@ public class crossword {
 
 	//crossword layout
 	
-	public static void grid(ArrayList<String> vards, ArrayList<String> definicijas, String def){
+	public static void grid(ArrayList<String> vards, String def){
 		String grid="";
 		// JOptionPane.showMessageDialog(null, teksts+"\n"+def);
 		
 		for(int i=0; i<vards.size(); i++) {
+			//System.out.println(i);
+			if((i+1)%2!=0) 
+				for(int j=0; j<vards.get(i).length(); j++) grid= grid+"[?]";
+			else
+				for(int j=0; j<vards.get(i).length(); j++) grid= grid+"[?]\n";
 			
-			for(int j=0; j<vards.get(i).length(); j++) grid= grid+"[?]";
-			
-		grid=grid+(vards.get(i));
+		//grid=grid+(vards.get(i));
 		grid=grid+"\n";
 		}
-		
 		grid=grid+"\n";
-		grid=grid+def;
-			
+		
 		JOptionPane.showMessageDialog(null, grid);
 	    }
 	    
@@ -97,7 +98,7 @@ public class crossword {
 		
 		//creation
 		
-		grid(vards, definicijas, def);
+		grid(vards, def);
 	}
 	
 //	StringBuilder build = new StringBuilder();
