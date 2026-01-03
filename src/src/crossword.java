@@ -9,11 +9,32 @@ import db.database;
 
 public class crossword {
 
+	//crossword layout
+	
+	public static void grid(ArrayList<String> vards, ArrayList<String> definicijas, String def){
+		String grid="";
+		// JOptionPane.showMessageDialog(null, teksts+"\n"+def);
+		
+		for(int i=0; i<vards.size(); i++) {
+			
+			for(int j=0; j<vards.get(i).length(); j++) grid= grid+"[?]";
+			
+		grid=grid+(vards.get(i));
+		grid=grid+"\n";
+		}
+		
+		grid=grid+"\n";
+		grid=grid+def;
+			
+		JOptionPane.showMessageDialog(null, grid);
+	    }
+	    
+	
 	public static void veidot() {
 		String a, teksts, msg;
 		ArrayList<String> vards = new ArrayList<>();
 		do {
-		teksts = String.join("\n", vards); //lieto lai nebutu [] un , kas rodas ja izmanto arraylist bez atseviska string
+		teksts = String.join("\n", vards); //lieto lai nebutu [] un , kas rodas ja izmanto arraylist vards nevis atsevisku string
 		
 		if(teksts.isEmpty())
 			msg = "Ieraksti vardu";
@@ -57,7 +78,11 @@ public class crossword {
 		//edit
 		
 		do {
-		a = JOptionPane.showInputDialog(def+"\nKuru no siem definicijam velies rediget?");
+		a = JOptionPane.showInputDialog(def+"Kuru no siem definicijam velies rediget?");
+		
+		if(a==null)
+		break;
+			
 		int b = Integer.parseInt(a)-1;
 		definicijas.get(b);
 		
@@ -69,6 +94,10 @@ public class crossword {
 			def = def+(i+1+". "+definicijas.get(i)+"\n");
 		
 		}while(a!=null);
+		
+		//creation
+		
+		grid(vards, definicijas, def);
 	}
 	
 //	StringBuilder build = new StringBuilder();
