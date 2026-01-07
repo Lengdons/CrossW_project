@@ -17,18 +17,25 @@ public class crossword {
 		
 		for(int i=0; i<vards.size(); i++) {
 			//System.out.println(i);
+			grid = grid+(i+1)+". ";
 			if((i+1)%2!=0) 
-				for(int j=0; j<vards.get(i).length(); j++) grid= grid+"[?]";
+				for(int j=0; j<vards.get(i).length(); j++) grid= grid+" [?]";
 			else
-				for(int j=0; j<vards.get(i).length(); j++) grid= grid+"[?]\n";
+				for(int j=0; j<vards.get(i).length(); j++) grid= grid+"\n [?]";
 			
 		//grid=grid+(vards.get(i));
 		grid=grid+"\n";
 		}
 		grid=grid+"\n";
 		
-		JOptionPane.showMessageDialog(null, grid);
-	    }
+		String indexV = JOptionPane.showInputDialog(null, grid+def+"\nIzvelies kuru vardu velies aizpildit");
+		int index = Integer.parseInt(indexV)-1;
+		String letterInput = JOptionPane.showInputDialog("Enter a letter:");
+		char letter = letterInput.charAt(0);
+		JOptionPane.showMessageDialog(null, "Word: \nLetter chosen: " + letter);
+
+
+	}
 	    
 	
 	public static void veidot() {
@@ -115,7 +122,26 @@ public class crossword {
 	
 	
 	public static void izveleties() {
-		String a = JOptionPane.showInputDialog(null, "1 - Vieglu 2 - Videju 3 - Grutu");
+		String a="";
+		do {
+		a = JOptionPane.showInputDialog(null, "Izvelies grutibas pakapi - Viegli - 1, Videji - 2, Gruti - 3").toLowerCase();
+	        
+	        if(!(a.equals("viegli") || a.equals("videji") || a.equals("gruti") || a.equals("1") || a.equals("2") || a.equals("3")))
+	        JOptionPane.showMessageDialog(null, "Nepareizi ievaditi dati");
+	        
+	        }while(!(a.equals("viegli") || a.equals("videji") || a.equals("gruti") || a.equals("1") || a.equals("2") || a.equals("3")));
+		switch(a) {
+		case "1":
+		case "viegli":
+			
+			break;
+		case "2":
+		case "videji":
+			break;
+		case "3":
+		case "gruti":
+			break;
+		}
 	}
 	
 	public static void main(String[] args) {
