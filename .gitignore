@@ -1,1 +1,12 @@
-/bin/
+# Ignore Eclipse configuration files
+.classpath
+.project
+.settings/
+
+# Ignore compiled Java files (the .class files)
+bin/
+*.class
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
