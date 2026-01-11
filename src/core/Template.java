@@ -14,6 +14,6 @@ public class Template extends JFrame{
 		setSize(600, 500);
 		setLocationRelativeTo(null);
 		
-		setVisible(true);
+		setVisible(false);
 	}
 }
