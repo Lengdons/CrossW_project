@@ -1,12 +1,19 @@
 package core;
 
+import javax.swing.JFrame;
 
-public class Template {
+public class Template extends JFrame{
 
-	public static void main(String[]args) {
-	
-		System.out.println("We Start Here...");
-		
+	public Template() {
+	initialize();
 	}
 	
+	public void initialize() {
+		setTitle("Krustvārdu Mīkla");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(600, 500);
+		setLocationRelativeTo(null);
+		
+		setVisible(true);
+	}
 }
