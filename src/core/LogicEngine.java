@@ -24,17 +24,25 @@ public LogicEngine() {
 public boolean canPlaceVertical(String word, int startRow, int startCol) {
 	//Vertikālais collision ckeck loop
 	if(word.length()+startRow<board.length){
-		if(startRow > 0 && board[startRow-1][startCol] != '-') {
+		if(startRow > 0 && board[startRow-1][startCol] != '-') { //top check
 			return false;
 		}
 		for(int i=0; i<word.length(); i++) {
-			if(board[startRow+i][startCol] != word.charAt(i) && board[startRow+i][startCol] != '-' 
-					&& startCol<board.length && board[startRow+i][startCol+1] != '-'){	//side check right
-				return false;}
-			if(startCol>0 && board[startRow+i][startCol-1] != '-') { //side check left
+			char boardChar = board[startRow + i][startCol];
+			char wordChar = word.charAt(i);
+			
+			if(boardChar == '-') {
+
+			if(startCol > 0 && board[startRow + i][startCol - 1] != '-'){ //check left
 				return false;
 			}
-				}
+			if(startCol < board.length - 1 && board[startRow + i][startCol + 1] != '-') { // check right
+				return false;
+			}else if (boardChar != wordChar) { //burtu pārklāšanās
+				return false;
+			}
+		}
+	}
 		if(startRow+word.length()<board.length && board[startRow+word.length()][startCol] != '-') {
 			return false;
 		}else{
