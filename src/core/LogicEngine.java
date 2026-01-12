@@ -15,14 +15,12 @@ public void LogicEngine() {
 			board[i][j] = '-';
 			}	
 		}
-//horizontal loop
-	for(int j=0;j<a.length();j++) {
-		board[0+5][j+2] = letters[j];
+	// Novieto 'vardu vertikāli
+	if(canPlaceVertical(a, 5, 2)) {
+		PlaceVertical(a, 5, 2);
+	} else {
+		System.out.println("Collision detected!");
 	}
-//vetical loop
-	for(int i=0; i<a.length(); i++) {
-		board[i+5][0+2] = letters[i];
-	}		
 }
 public boolean canPlaceVertical(String word, int startRow, int startCol) {
 	//Vertikālais collision ckeck loop
@@ -70,7 +68,22 @@ public void PlaceHorizontal(String word, int startRow, int startCol) {
 			board[startRow][startCol+i] = word.charAt(i);
 				}
 			}
-		
+
+public void ScanField() {
+	for(int i=0; i<board.length; i++) {
+		for (int j=0;j<board.length; j++) {
+			if(canPlaceVertical(a, i, j)) {
+				PlaceVertical(a, i, j);
+				return;
+				}else {
+			if(canPlaceHorizontal(a,i,j)) {
+				PlaceHorizontal(a,i,j);
+				return;
+					}
+				}
+			}
+		}
+	}	
 
 }
 
