@@ -5,29 +5,35 @@ import java.util.Scanner;
 public class LogicEngine {
 	char[][] board = new char[20][20];
 	Scanner sc = new Scanner(System.in);
-	String a = sc.next();
-	char[]letters = a.toCharArray();
+	
 	
 // Grid/board 20x20
-public void LogicEngine() {	
+public LogicEngine() {	
 	for(int i=0; i<20; i++) {
 		for(int j=0; j<20; j++) {
 			board[i][j] = '-';
 			}	
 		}
-	// Novieto 'vardu vertikāli
-	if(canPlaceVertical(a, 5, 2)) {
-		PlaceVertical(a, 5, 2);
-	} else {
-		System.out.println("Collision detected!");
+	for(int i=0;i<10;i++) {
+		String word = sc.next();
+		ScanField(word);
 	}
+	printBoard();
+ 
 }
 public boolean canPlaceVertical(String word, int startRow, int startCol) {
 	//Vertikālais collision ckeck loop
 	if(word.length()+startRow<board.length){
+		if(startRow > 0 && board[startRow-1][startCol] != '-') {
+			return false;
+		}
 		for(int i=0; i<word.length(); i++) {
-			if(board[startRow+i][startCol] != word.charAt(i) && board[startRow+i][startCol] != '-'){	
+			if(board[startRow+i][startCol] != word.charAt(i) && board[startRow+i][startCol] != '-' 
+					&& startCol<board.length && board[startRow+i][startCol+1] != '-'){	//side check right
 				return false;}
+			if(startCol>0 && board[startRow+i][startCol-1] != '-') { //side check left
+				return false;
+			}
 				}
 		if(startRow+word.length()<board.length && board[startRow+word.length()][startCol] != '-') {
 			return false;
@@ -69,24 +75,32 @@ public void PlaceHorizontal(String word, int startRow, int startCol) {
 				}
 			}
 
-public void ScanField() {
+public void ScanField(String word) {
 	for(int i=0; i<board.length; i++) {
 		for (int j=0;j<board.length; j++) {
-			if(canPlaceVertical(a, i, j)) {
-				PlaceVertical(a, i, j);
+			if(canPlaceVertical(word, i, j)) {
+				PlaceVertical(word, i, j);
 				return;
-				}else {
-			if(canPlaceHorizontal(a,i,j)) {
-				PlaceHorizontal(a,i,j);
+				}else if(canPlaceHorizontal(word,i,j)) {
+				PlaceHorizontal(word,i,j);
 				return;
 					}
 				}
 			}
 		}
-	}	
+		
+public void printBoard() {
+	for(int i=0; i<20; i++) {
+		for(int j=0; j<20; j++) {
+	System.out.print(board[i][j] + " ");
+			}System.out.println();
+		}
+	}
 
+public static void main(String[] args) {
+    new LogicEngine();
 }
-
+}
 	
 
 
