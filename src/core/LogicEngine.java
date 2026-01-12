@@ -57,8 +57,20 @@ public boolean canPlaceHorizontal(String word, int startRow, int startCol) {
 			return false;
 		}
 	}
+public void PlaceVertical(String word, int startRow, int startCol) {
+	// Ievieto Vertikāli
+		for(int i=0; i<word.length(); i++){
+			board[startRow+i][startCol] = word.charAt(i);
+				}
+			}
 
-
+public void PlaceHorizontal(String word, int startRow, int startCol) {
+	// Ievieto Horizontāli
+		for(int i=0; i<word.length(); i++){
+			board[startRow][startCol+i] = word.charAt(i);
+				}
+			}
+		
 
 }
 
