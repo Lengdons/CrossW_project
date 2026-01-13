@@ -21,10 +21,12 @@ public class Window extends JFrame{
 	private char[][] atbildesBoard;
 	private JTextField[][] lauks; 
 	private java.util.List<placedWord> vardiList;
+	private java.util.Map<String, String> dictionary; 
 	
-	public Window(KrustvarduMikla game) {
+	public Window(KrustvarduMikla game, java.util.Map<String, String> dictionary) {
         this.atbildesBoard = game.getBoard();     
         this.vardiList = game.getPlacedWords();
+        this.dictionary = dictionary;
 		
 	initialize();
 	
@@ -47,6 +49,10 @@ public class Window extends JFrame{
 	}
 	
 	public void initialize() {
+		StringBuilder sb = new StringBuilder();
+	    java.util.Map<String, Integer> wordNumbers = setupWordOrdering(sb);
+	    
+		vardiList.sort((a, b) -> (a.row != b.row) ? a.row - b.row : a.col - b.col);
 		setTitle("Krustvārdu Mīkla");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(900, 900); 
@@ -60,7 +66,7 @@ public class Window extends JFrame{
 		gamePanel.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK, 2));
 		
 		lauks = new JTextField[atbildesBoard.length][atbildesBoard[0].length];
-		
+	//secības metode
 		for (int i = 0; i < atbildesBoard.length; i++) {
 	        for (int j = 0; j < atbildesBoard[i].length; j++) {
 	            char letter = atbildesBoard[i][j];
@@ -69,31 +75,45 @@ public class Window extends JFrame{
 	            cell.setHorizontalAlignment(SwingConstants.CENTER);
 	            cell.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
 
-	            if (letter == '-') {
-	                cell.setBackground(java.awt.Color.GRAY);// šuna
-	                cell.setEditable(false);
-	                cell.setBorder(null); //atslēgt tukšos laukus
-	            } else {
-	            		cell.setBackground(java.awt.Color.WHITE);
-	                cell.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK));
-	                cell.setEditable(true);
-	            }
-
-	            lauks[i][j] = cell;
-	            gamePanel.add(cell); 
+	            String cellNum ="";
+	            	for (core.placedWord pw : vardiList) {
+	            	    if (pw.row == i && pw.col == j && wordNumbers.containsKey(pw.word)) {
+	            	        cellNum = String.valueOf(wordNumbers.get(pw.word));
+	            	    }
+	            	}
+	            	if (letter == '-') {
+	                    cell.setBackground(java.awt.Color.GRAY);
+	                    cell.setEditable(false);
+	                    cell.setBorder(null);
+	                } else {
+	                    cell.setBackground(java.awt.Color.WHITE);
+	                    cell.setEditable(true);
+	                    
+	            	if (!cellNum.isEmpty()) {
+	            	    cell.setBorder(javax.swing.BorderFactory.createTitledBorder(
+	            	        javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK), 
+	            	        cellNum, 
+	            	        0, 2, new java.awt.Font("Arial", java.awt.Font.PLAIN, 10)
+	            	    ));
+	            	} else {
+	            	    cell.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK));
+	            	}
+	           }
+        lauks[i][j] = cell;
+        gamePanel.add(cell);
 	        }
 	    }
 	    topPanel.add(gamePanel);
 	    
 	    JPanel bottomPanel = new JPanel(new BorderLayout());
-
 //definiciju lauks
 	    JTextArea definitionsArea = new JTextArea();
-	    definitionsArea.setText("Definīcijas:\nHorizontāli:\n\nVertikāli:"); 
+	    
+	    definitionsArea.setText(sb.toString()); 
 	    definitionsArea.setEditable(false);
 	    definitionsArea.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
 	    definitionsArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	    
+//pogas
 	    bottomPanel.add(new JScrollPane(definitionsArea), BorderLayout.CENTER);
 
 	    JPanel buttonPanel = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
@@ -108,7 +128,6 @@ public class Window extends JFrame{
 
 	    buttonPanel.add(checkPoga);
 	    buttonPanel.add(exitPoga);
-	    
 	    bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 	    JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, bottomPanel);
@@ -117,5 +136,32 @@ public class Window extends JFrame{
 	    splitPane.setDividerSize(1);       
 
 	    add(splitPane);
+	}
+	
+// Metode order
+	private java.util.Map<String, Integer> setupWordOrdering(StringBuilder sb) {
+	    vardiList.sort((a, b) -> (a.row != b.row) ? a.row - b.row : a.col - b.col);
+
+	    java.util.Map<String, Integer> map = new java.util.HashMap<>();
+	    int counter = 1;
+
+	    sb.append("HORIZONTĀLI:\n");
+	    for (core.placedWord pw : vardiList) {
+	        if (!pw.isVertical) {
+	            sb.append(String.format("%d. %s\n", counter, dictionary.get(pw.word)));
+	            map.put(pw.word, counter);
+	            counter++;
+	        }
+	    }
+
+	    sb.append("\nVERTIKĀLI:\n");
+	    for (core.placedWord pw : vardiList) {
+	        if (pw.isVertical) {
+	            sb.append(String.format("%d. %s\n", counter, dictionary.get(pw.word)));
+	            map.put(pw.word, counter);
+	            counter++;
+	        }
+	    }
+	    return map;
 	}
 }
