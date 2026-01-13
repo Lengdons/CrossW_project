@@ -35,24 +35,22 @@ public boolean canPlaceVertical(String word, int startRow, int startCol) {
 			
 			if(boardChar == '-') {
 
-			if(startCol > 0 && board[startRow + i][startCol - 1] != '-'){ //check left
+			if(startCol > 0 && board[startRow + i][startCol - 1] != '-')//check left
 				return false;
-			}
-			if(startCol < board.length - 1 && board[startRow + i][startCol + 1] != '-') { // check right
+			if(startCol < board.length - 1 && board[startRow + i][startCol + 1] != '-') // check right
 				return false;
-			}else if (boardChar != wordChar) { //burtu pārklāšanās
+			
+			}else{
+				if (boardChar != wordChar) //burtu pārklāšanās
 				return false;
 			}
 		}
-	}
+	}else return false;
 		if(startRow+word.length()<board.length && board[startRow+word.length()][startCol] != '-') { //check bottom
 			return false;
 		}else{
 			return true;
 			}
-		}else{
-			return false;
-		}
 	} //
 
 //Horizontāli collision ckeck loop
@@ -68,29 +66,25 @@ public boolean canPlaceHorizontal(String word, int startRow, int startCol) {
 			
 			if(boardChar == '-') {
 
-			if(startRow > 0 && board[startRow - 1][startCol + i] != '-'){ //check top
+			if(startRow > 0 && board[startRow - 1][startCol + i] != '-')//check top
 				return false;
-			}
-			if(startRow < board.length - 1 && board[startRow + 1][startCol + i] != '-') { // check bottom
+			if(startRow < board.length - 1 && board[startRow + 1][startCol + i] != '-') // check bottom
 				return false;
-			}else if (boardChar != wordChar) { //burtu pārklāšanās
+			}else{
+				if (boardChar != wordChar)//burtu pārklāšanās
 				return false;
 			}
 		}
-	}
+	}else return false;
 		if(startCol+word.length()<board.length && board[startRow][startCol+word.length()] != '-') { //check right
 			return false;
 		}else{
 			return true;
 			}
-		}else{
-			return false;
-		}
 	}//
 
 //Ievieto Vertikāli
 public void PlaceVertical(String word, int startRow, int startCol) {
-	
 		for(int i=0; i<word.length(); i++){
 			board[startRow+i][startCol] = word.charAt(i);
 				}
@@ -104,7 +98,9 @@ public void PlaceHorizontal(String word, int startRow, int startCol) {
 				}
 			}
 
+//FieldScan novietotājs
 public void ScanField(String word) {
+	
 	for(int i=0; i<board.length; i++) {
 		for (int j=0;j<board.length; j++) {
 			if(canPlaceVertical(word, i, j)) {
