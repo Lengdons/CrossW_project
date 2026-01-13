@@ -21,8 +21,10 @@ public LogicEngine() {
 	printBoard();
  
 }
+
+//Vertikālais collision ckeck loop
 public boolean canPlaceVertical(String word, int startRow, int startCol) {
-	//Vertikālais collision ckeck loop
+
 	if(word.length()+startRow<board.length){
 		if(startRow > 0 && board[startRow-1][startCol] != '-') { //top check
 			return false;
@@ -43,7 +45,7 @@ public boolean canPlaceVertical(String word, int startRow, int startCol) {
 			}
 		}
 	}
-		if(startRow+word.length()<board.length && board[startRow+word.length()][startCol] != '-') {
+		if(startRow+word.length()<board.length && board[startRow+word.length()][startCol] != '-') { //check bottom
 			return false;
 		}else{
 			return true;
@@ -51,16 +53,32 @@ public boolean canPlaceVertical(String word, int startRow, int startCol) {
 		}else{
 			return false;
 		}
-	}
+	} //
 
+//Horizontāli collision ckeck loop
 public boolean canPlaceHorizontal(String word, int startRow, int startCol) {
-	//Horizontāli collision ckeck loop
+	
 	if(word.length()+startCol<board.length){
+		if(startCol > 0 && board[startRow][startCol - 1] != '-') { //check left
+			return false;
+		}
 		for(int i=0; i<word.length(); i++){
-			if(board[startRow][startCol+i] != word.charAt(i) && board[startRow][startCol+i] != '-'){	
-				return false;}
-				}
-		if(startCol+word.length()<board.length && board[startRow][startCol+word.length()] != '-') {
+			char boardChar = board[startRow][startCol + i];
+			char wordChar = word.charAt(i);
+			
+			if(boardChar == '-') {
+
+			if(startRow > 0 && board[startRow - 1][startCol + i] != '-'){ //check top
+				return false;
+			}
+			if(startRow < board.length - 1 && board[startRow + 1][startCol + i] != '-') { // check bottom
+				return false;
+			}else if (boardChar != wordChar) { //burtu pārklāšanās
+				return false;
+			}
+		}
+	}
+		if(startCol+word.length()<board.length && board[startRow][startCol+word.length()] != '-') { //check right
 			return false;
 		}else{
 			return true;
@@ -68,16 +86,19 @@ public boolean canPlaceHorizontal(String word, int startRow, int startCol) {
 		}else{
 			return false;
 		}
-	}
+	}//
+
+//Ievieto Vertikāli
 public void PlaceVertical(String word, int startRow, int startCol) {
-	// Ievieto Vertikāli
+	
 		for(int i=0; i<word.length(); i++){
 			board[startRow+i][startCol] = word.charAt(i);
 				}
 			}
 
+//Ievieto Horizontāli
 public void PlaceHorizontal(String word, int startRow, int startCol) {
-	// Ievieto Horizontāli
+	
 		for(int i=0; i<word.length(); i++){
 			board[startRow][startCol+i] = word.charAt(i);
 				}
