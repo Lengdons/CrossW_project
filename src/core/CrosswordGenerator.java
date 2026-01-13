@@ -1,9 +1,10 @@
 package core;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CrosswordGenerator {
-	//Risinājuma lauks
 
 //Vertical collision check
 	private boolean canPlaceVertical(char[][] board, String word, int startRow, int startCol) {
@@ -82,14 +83,16 @@ public class CrosswordGenerator {
         return false;
     }
 	
-	public char[][] generate(List<String> WORDS, int size) {
-		char[][] board = new char[size][size];
-		
-		for(int i=0; i<size; i++) {
-			for(int j=0; j<size; j++) {
-				board[i][j] = '-';
-				}	
-		}
+	public KrustvarduMikla generate(List<String> WORDS, int size) {
+	    char[][] board = new char[size][size];
+	    List<placedWord> placedList = new ArrayList<>(); // The new list to track words
+	    Random rand = new Random();
+	    
+	    for (int i = 0; i < size; i++) {
+	        for (int j = 0; j < size; j++) {
+	            board[i][j] = '-';
+	        }
+	    }
 // Pirmā vārda enkurs (horizontāli)
 		String firstWord = WORDS.get(0);
 			
@@ -103,23 +106,26 @@ public class CrosswordGenerator {
 //	int startCol = size/2;
 //	placeWord(board, firstWord, startRow, startCol, true);
 		
-		for (int i = 1; i < WORDS.size(); i++) {
-		    String currentWord = WORDS.get(i);
-		    boolean placed = false;
+	for (int i = 1; i < WORDS.size(); i++) {
+        String currentWord = WORDS.get(i);
+        boolean placed = false;
+        int attempts = 0;
 
-		    for (int r = 1; r < size && !placed; r++) { 
-		        for (int c = 1; c < size && !placed; c++) {
-		            if (placeWord(board, currentWord, r, c, true)) {
-		                placed = true;
-		            } 
-		            else if (placeWord(board, currentWord, r, c, false)) {
-		                placed = true;
-		            }
-		        }
-		    }
-		}
-		return board;
-	}
-	
-	
+        while (!placed && attempts < 100) {
+            int r = rand.nextInt(size);
+            int c = rand.nextInt(size);
+            boolean isVertical = rand.nextBoolean();
+
+            if (placeWord(board, currentWord, r, c, isVertical)) {
+                placed = true;
+      //reģistrē pareizo 
+                placedList.add(new placedWord(currentWord, r, c, isVertical)); 
+            }
+            attempts++;
+        }
+    }
+    return new KrustvarduMikla(board, placedList); //return'o lauku un listi
 }
+}
+	
+

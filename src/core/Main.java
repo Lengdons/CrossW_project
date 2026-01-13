@@ -25,12 +25,10 @@ public class Main {
 	   
 		
 	   CrosswordGenerator builder = new CrosswordGenerator();
-	char[][] board = builder.generate(wL, 20);
+	  KrustvarduMikla game = builder.generate(wL, 20);
 	
-	print(board);
 	
-//atver JFrame logu
-	Window logs = new Window(board); 
+	Window logs = new Window(game); 
 	logs.setVisible(true);
 	
 	}

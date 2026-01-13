@@ -1,10 +1,10 @@
 package core;
 
 import java.awt.BorderLayout;
+import java.util.List;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,14 +13,18 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import core.KrustvarduMikla;
+import core.placedWord;
 
 public class Window extends JFrame{
 
 	private char[][] atbildesBoard;
 	private JTextField[][] lauks; 
+	private java.util.List<placedWord> vardiList;
 	
-	public Window(char[][] gatavaisBoard) {
-		this.atbildesBoard = gatavaisBoard;
+	public Window(KrustvarduMikla game) {
+        this.atbildesBoard = game.getBoard();     
+        this.vardiList = game.getPlacedWords();
 		
 	initialize();
 	
@@ -100,7 +104,6 @@ public class Window extends JFrame{
 	    
 	    JButton exitPoga = new JButton("Iziet");
 	    exitPoga.setPreferredSize(new Dimension(100, 30));
-	    // Optional: Make exit button actually close the app
 	    exitPoga.addActionListener(e -> System.exit(0)); 
 
 	    buttonPanel.add(checkPoga);
