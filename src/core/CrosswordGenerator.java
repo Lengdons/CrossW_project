@@ -103,6 +103,21 @@ public class CrosswordGenerator {
 //	int startCol = size/2;
 //	placeWord(board, firstWord, startRow, startCol, true);
 		
+		for (int i = 1; i < WORDS.size(); i++) {
+		    String currentWord = WORDS.get(i);
+		    boolean placed = false;
+
+		    for (int r = 1; r < size && !placed; r++) { 
+		        for (int c = 1; c < size && !placed; c++) {
+		            if (placeWord(board, currentWord, r, c, true)) {
+		                placed = true;
+		            } 
+		            else if (placeWord(board, currentWord, r, c, false)) {
+		                placed = true;
+		            }
+		        }
+		    }
+		}
 		return board;
 	}
 	
