@@ -1,6 +1,7 @@
 package core;
 
 public class CrosswordGenerator {
+	//Risinājuma lauks
 
 //Vertical collision check
 	private boolean canPlaceVertical(char[][] board, String word, int startRow, int startCol) {
@@ -62,6 +63,24 @@ public class CrosswordGenerator {
 				return true;
 				}
 	}
+
+//Ievieto vārdu
+	public boolean placeWord(char[][] board, String word, int r, int c, boolean isVertical) {
+        if (isVertical) {
+            if (canPlaceVertical(board, word, r, c)) {
+                for (int i = 0; i < word.length(); i++) board[r + i][c] = word.charAt(i);
+                return true;
+            }
+        } else {
+            if (canPlaceHorizontal(board, word, r, c)) {
+                for (int i = 0; i < word.length(); i++) board[r][c + i] = word.charAt(i);
+                return true;
+            }
+        }
+        return false;
+    }
+	
+	
 	
 	
 }
