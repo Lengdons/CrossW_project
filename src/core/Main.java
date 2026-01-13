@@ -1,6 +1,6 @@
 package core;
 
-public class WindowMain {
+public class Main {
 
    public void tuksh(String[] args) {
 		
