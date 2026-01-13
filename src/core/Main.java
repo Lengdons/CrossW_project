@@ -28,8 +28,8 @@ public class Main {
 	char[][] board = builder.generate(wL, 20);
 	
 	print(board);
-
-//inicializē JFrame logu
+	
+//atver JFrame logu
 	Window logs = new Window(board); 
 	logs.setVisible(true);
 	
