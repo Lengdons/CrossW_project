@@ -1,5 +1,7 @@
 package core;
 
+import java.util.List;
+
 public class CrosswordGenerator {
 	//Risinājuma lauks
 
@@ -80,7 +82,29 @@ public class CrosswordGenerator {
         return false;
     }
 	
-	
+	public char[][] generate(List<String> WORDS, int size) {
+		char[][] board = new char[size][size];
+		
+		for(int i=0; i<size; i++) {
+			for(int j=0; j<size; j++) {
+				board[i][j] = '-';
+				}	
+		}
+// Pirmā vārda enkurs (horizontāli)
+		String firstWord = WORDS.get(0);
+			
+		int startRow = size/2;
+		int startCol = (size/2) - (firstWord.length()/2);
+		
+		placeWord(board, firstWord, startRow, startCol, false);
+		
+// 		Pirmā vārda enkurs (vertikāli)
+//	int startRow = (size/2) - (firstWord.length()/2);
+//	int startCol = size/2;
+//	placeWord(board, firstWord, startRow, startCol, true);
+		
+		return board;
+	}
 	
 	
 }
