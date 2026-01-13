@@ -28,6 +28,10 @@ public class Main {
 	char[][] board = builder.generate(wL, 20);
 	
 	print(board);
+
+//inicializē JFrame logu
+	Window logs = new Window(board); 
+	logs.setVisible(true);
 	
 	}
    public static void print(char[][] board) {
@@ -38,4 +42,5 @@ public class Main {
            System.out.println();
 	   }
    }
+   
 }

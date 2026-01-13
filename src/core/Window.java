@@ -2,18 +2,21 @@ package core;
 
 import javax.swing.JFrame;
 
-public class Template extends JFrame{
+public class Window extends JFrame{
 
-	public Template() {
+	private char[][] atbildesBoard;
+	
+	public Window(char[][] gatavaisBoard) {
+		this.atbildesBoard = gatavaisBoard;
+		
 	initialize();
 	}
 	
 	public void initialize() {
 		setTitle("Krustvārdu Mīkla");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(600, 500);
+		setSize(900, 800);
 		setLocationRelativeTo(null);
 		
-		setVisible(false);
 	}
 }
