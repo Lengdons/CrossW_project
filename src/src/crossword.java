@@ -11,31 +11,31 @@ public class crossword {
 
 	//crossword layout
 	
-	public static void grid(ArrayList<String> vards, String def){
-		String grid="";
-		// JOptionPane.showMessageDialog(null, teksts+"\n"+def);
-		
-		for(int i=0; i<vards.size(); i++) {
-			//System.out.println(i);
-			grid = grid+(i+1)+". ";
-			if((i+1)%2!=0) 
-				for(int j=0; j<vards.get(i).length(); j++) grid= grid+" [?]";
-			else
-				for(int j=0; j<vards.get(i).length(); j++) grid= grid+"\n [?]";
-			
-		//grid=grid+(vards.get(i));
-		grid=grid+"\n";
-		}
-		grid=grid+"\n";
-		
-		String indexV = JOptionPane.showInputDialog(null, grid+def+"\nIzvelies kuru vardu velies aizpildit");
-		int index = Integer.parseInt(indexV)-1;
-		String letterInput = JOptionPane.showInputDialog("Enter a letter:");
-		char letter = letterInput.charAt(0);
-		JOptionPane.showMessageDialog(null, "Word: \nLetter chosen: " + letter);
-
-
-	}
+//	public static void grid(ArrayList<String> vards, String def){
+//		String grid="";
+//		// JOptionPane.showMessageDialog(null, teksts+"\n"+def);
+//		
+//		for(int i=0; i<vards.size(); i++) {
+//			//System.out.println(i);
+//			grid = grid+(i+1)+". ";
+//			if((i+1)%2!=0) 
+//				for(int j=0; j<vards.get(i).length(); j++) grid= grid+" [?]";
+//			else
+//				for(int j=0; j<vards.get(i).length(); j++) grid= grid+"\n [?]";
+//			
+//		//grid=grid+(vards.get(i));
+//		grid=grid+"\n";
+//		}
+//		grid=grid+"\n";
+//		
+//		String indexV = JOptionPane.showInputDialog(null, grid+def+"\nIzvelies kuru vardu velies aizpildit");
+//		int index = Integer.parseInt(indexV)-1;
+//		String letterInput = JOptionPane.showInputDialog("Enter a letter:");
+//		char letter = letterInput.charAt(0);
+//		JOptionPane.showMessageDialog(null, "Word: \nLetter chosen: " + letter);
+//
+//
+//	}
 	    
 	
 	public static void veidot() {
@@ -144,7 +144,7 @@ public class crossword {
 		
 		//creation
 		
-		grid(vards, def);
+		laukums.grid(vards, definicijas);
 	}
 	
 //	StringBuilder build = new StringBuilder();
