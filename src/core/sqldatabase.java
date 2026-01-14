@@ -1,14 +1,18 @@
-package Work1;
+package core;
 
-
-
-	import java.sql.*;
-	import java.util.ArrayList;
-	import java.util.List;
-	import javax.swing.JOptionPane;
 	import java.nio.charset.StandardCharsets;
-	import java.nio.file.Files;
-	import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
 	
 	
 	public class sqldatabase {
@@ -55,6 +59,29 @@ private static void runSqlFile(Connection conn, String sqlDumpPath) throws Excep
         }
     }
 }
+
+public static Map<String, String> getGameWords(Connection conn) {
+ Map<String, String> dictionary = new HashMap<>();
+ 
+ String query = "SELECT vards, definicija FROM vards"; 
+
+ try (Statement stmt = conn.createStatement();
+      ResultSet rs = stmt.executeQuery(query)) {
+     
+     while (rs.next()) {
+         String word = rs.getString("vards");
+         String desc = rs.getString("definicija");
+       
+         if (word != null && desc != null) {
+             dictionary.put(word.toUpperCase(), desc);
+         }
+     }
+ } catch (SQLException e) {
+     e.printStackTrace();
+ }
+ return dictionary;
+}
+
 }
 
 
