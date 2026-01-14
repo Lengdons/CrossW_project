@@ -10,7 +10,7 @@ public class CharLimit extends PlainDocument {
     public CharLimit(int limit) {
         this.limit = limit;
     }
-
+    
     public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
         if (str == null) return;
         if ((getLength() + str.length()) <= limit) {

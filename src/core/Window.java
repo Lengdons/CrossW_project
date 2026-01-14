@@ -22,6 +22,7 @@ public class Window extends JFrame{
 	private JTextField[][] lauks; 
 	private java.util.List<placedWord> vardiList;
 	private java.util.Map<String, String> dictionary; 
+	private boolean isHorizontal = true;
 	
 	public Window(KrustvarduMikla game, java.util.Map<String, String> dictionary) {
         this.atbildesBoard = game.getBoard();     
@@ -76,7 +77,50 @@ public class Window extends JFrame{
 	            cell.setPreferredSize(new Dimension(20, 20));
 	            cell.setHorizontalAlignment(SwingConstants.CENTER);
 	            cell.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+	            final int r = i;
+	            final int c = j;
 
+	  //AutoMove
+	            cell.addKeyListener(new java.awt.event.KeyAdapter() {
+	                @Override
+	                public void keyReleased(java.awt.event.KeyEvent e) {
+	                    if (Character.isLetterOrDigit(e.getKeyChar())) {
+	                        if (isHorizontal) {
+	                            if (c + 1 < lauks[0].length && lauks[r][c + 1].isEditable()) { //pa labi
+	                                lauks[r][c + 1].requestFocus();
+	                            }
+	                        } else {
+	                            if (r + 1 < lauks.length && lauks[r + 1][c].isEditable()) {//uz leju
+	                                lauks[r + 1][c].requestFocus();
+	                            }
+	                        }
+	                    }
+	                    if (e.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) { //dzēst
+	                        if (isHorizontal) {
+	                            if (c - 1 >= 0 && lauks[r][c - 1].isEditable()) {
+	                                lauks[r][c - 1].requestFocus();
+	                            }
+	                        } else {
+	                            if (r - 1 >= 0 && lauks[r - 1][c].isEditable()) {
+	                                lauks[r - 1][c].requestFocus();
+	                            }
+	                        }
+	                    }
+	                    if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+	                        isHorizontal = !isHorizontal; // Saimainit virzienu
+	                        System.out.println("Virziens samainīts: " + (isHorizontal ? "Horizontal" : "Vertical"));
+	                    }
+	                }
+	            });
+	            cell.addMouseListener(new java.awt.event.MouseAdapter() {
+	                @Override
+	                public void mouseClicked(java.awt.event.MouseEvent e) {
+	                    if (e.getClickCount() == 2) {
+	                        isHorizontal = !isHorizontal;
+	                    }
+	                }
+	            });
+	            
 	            String cellNum ="";
 	            	for (core.placedWord pw : vardiList) {
 	            	    if (pw.row == i && pw.col == j && wordNumbers.containsKey(pw.word)) {
