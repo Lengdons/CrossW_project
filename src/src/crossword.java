@@ -7,6 +7,10 @@ import javax.swing.JOptionPane;
 
 import db.database;
 
+import java.sql.*;
+import java.util.*;
+
+
 public class crossword {
 
 	//crossword layout
@@ -36,6 +40,33 @@ public class crossword {
 //
 //
 //	}
+	
+	static void sakartotVardus(ArrayList<String> vardi, ArrayList<String> defs) {
+	    int best = 0;
+	    int bestScore = -1;
+
+	    for (int i = 0; i < vardi.size(); i++) {
+	        int score = 0;
+	        for (int j = 0; j < vardi.size(); j++) {
+	            if (i == j) continue;
+	            for (char c : vardi.get(i).toCharArray())
+	                if (vardi.get(j).indexOf(c) >= 0) {
+	                    score++;
+	                    break;
+	                }
+	        }
+	        if (score > bestScore) {
+	            bestScore = score;
+	            best = i;
+	        }
+	    }
+
+	    String w = vardi.remove(best);
+	    String d = defs.remove(best);
+	    vardi.add(0, w);
+	    defs.add(0, d);
+	}
+
 	    
 	
 	public static void veidot() {
@@ -222,9 +253,11 @@ public class crossword {
 		
 		//iziet ara no cikla ja neieraksta index error
 		
-		//creation
-		
+		//sakarto vardus
+		sakartotVardus(vards, definicijas);
+		//creation 
 		laukums.grid(vards, definicijas);
+
 	}
 	
 //	StringBuilder build = new StringBuilder();
@@ -239,9 +272,47 @@ public class crossword {
 	// kods lai izveidotu tabulu uz joptionpane
 	
 	
+	static void vardiDB(String grutiba) {
+
+	    ArrayList<String> vards = new ArrayList<>();
+	    ArrayList<String> definicijas = new ArrayList<>();
+
+	    try (Connection conn = database.getConnection()) {
+
+	        String sql = """
+	            SELECT vards, definicija
+	            FROM vards
+	            WHERE lvl = ?
+	            ORDER BY RAND()
+	            LIMIT 10
+	        """;
+
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ps.setString(1, grutiba);
+
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            vards.add(rs.getString("vards"));
+	            definicijas.add(rs.getString("definicija"));
+	        }
+
+	        if (vards.size() < 2) {
+	            JOptionPane.showMessageDialog(null, "Nav pietiekami daudz vārdu šai grūtībai!");
+	            return;
+	        }
+
+	        laukums.grid(vards, definicijas);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Datubāzes kļūda!");
+	    }
+	}
+	
 	
 	public static void izveleties() {
-		String a="";
+		String a, grutiba="";
 		do {
 		a = JOptionPane.showInputDialog(null, "Izvelies grutibas pakapi - Viegli - 1, Videji - 2, Gruti - 3").toLowerCase();
 	        
@@ -252,15 +323,18 @@ public class crossword {
 		switch(a) {
 		case "1":
 		case "viegli":
-			
+			grutiba="viegli";
 			break;
 		case "2":
 		case "videji":
+			grutiba="videji";
 			break;
 		case "3":
 		case "gruti":
+			grutiba="gruti";
 			break;
 		}
+		vardiDB(grutiba);
 	}
 	
 	public static void main(String[] args) {
