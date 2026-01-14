@@ -35,7 +35,19 @@ if (!tableExists(conn, "vards")) {
         return null;
     }
 }
-    
+
+private static boolean tableExists(Connection conn, String tableName) throws SQLException {
+    DatabaseMetaData meta = conn.getMetaData();
+    try (ResultSet rs = meta.getTables(null, null, tableName, new String[]{"TABLE"})) {
+        return rs.next();
+    }
+}
+
+private static boolean tableExists(Connection conn, String string) {
+	// TODO Auto-generated method stub
+	return false;
+}
+	}
 	
 
 
