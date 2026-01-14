@@ -8,8 +8,8 @@ Lai izmantotu datubāzi ir nepieciešams ielādēt xampp. Pēc tam atvērt xampp
 
 
 - [x] Izveidot mysql
-- [ ] Mysql ar vārdnīcu (vārdi + definīcijas)
-- [ ] Izveidot  konkrētu lielumu x*x laukuma izmēru, kurā ietilps krustvārdu mīklas
-- [ ] ⁠Parādās veritkālas un horizontālas tukšās ailes
-- [ ] Zem ailes rādas vārdu definīcijas pēc kurām jāievada pareizais vārds krustvārdu mīklā
-- [ ] Vairākas valodas
+- [/] Mysql ar vārdnīcu (vārdi + definīcijas)
+- [x] Izveidot  konkrētu lielumu x*x laukuma izmēru, kurā ietilps krustvārdu mīklas
+- [x] ⁠Parādās veritkālas un horizontālas tukšās ailes
+- [x] Zem ailes rādas vārdu definīcijas pēc kurām jāievada pareizais vārds krustvārdu mīklā
+- [N] Vairākas valodas
