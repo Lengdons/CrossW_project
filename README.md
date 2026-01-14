@@ -13,3 +13,5 @@ Lai izmantotu datubāzi ir nepieciešams ielādēt xampp. Pēc tam atvērt xampp
 - [x] ⁠Parādās veritkālas un horizontālas tukšās ailes
 - [x] Zem ailes rādas vārdu definīcijas pēc kurām jāievada pareizais vārds krustvārdu mīklā
 - [N] Vairākas valodas
+- [ ]Savienot SQL ar kurstvārdu mīklu
+- [ ]Option menu
