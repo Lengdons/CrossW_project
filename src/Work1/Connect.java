@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class Connect {
 
-    public static void startFromDatabase(Connection c, String lvl, int n) {
+    public static void startFromDatabase(Connection c, String[] lvl, int n) {
         try {
             ArrayList<Entry> data =
-            		Dictionary.getByLevel(c, lvl, n);
+            		Dictionary.getByLevels(c, lvl, n);
 
             ArrayList<String> words = new ArrayList<>();
             String defs = "";
