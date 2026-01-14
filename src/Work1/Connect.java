@@ -1,10 +1,28 @@
 package Work1;
+
 import java.sql.Connection;
 import java.util.ArrayList;
+
 public class Connect {
 
-	public static void startFromDatabase(Connection c, String lvl, int n) {
+    public static void startFromDatabase(Connection c, String lvl, int n) {
         try {
-            ArrayList<DictionaryEntry> data =
-                    DictionaryDAO.getByLevel(c, lvl, n);
+            ArrayList<Entry> data =
+            		Dictionary.getByLevel(c, lvl, n);
+
+            ArrayList<String> words = new ArrayList<>();
+            String defs = "";
+
+            for (int i = 0; i < data.size(); i++) {
+                words.add(data.get(i).getWord());
+                defs += (i + 1) + ". " + data.get(i).getDef() + "\n";
+            }
+
+            Grid.grid(words, defs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
