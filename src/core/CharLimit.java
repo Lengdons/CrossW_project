@@ -13,6 +13,9 @@ public class CharLimit extends PlainDocument {
     
     public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
         if (str == null) return;
+        if (!str.chars().allMatch(Character::isLetter)) {
+            return; 
+        }
         if ((getLength() + str.length()) <= limit) {
             super.insertString(offset, str.toUpperCase(), attr);
         }

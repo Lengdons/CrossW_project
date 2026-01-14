@@ -49,7 +49,7 @@ public class Window extends JFrame{
 	                	if (!minejums.isEmpty()) {
 	                    lauks[i][j].setBackground(Yellow1);
 	                } else {
-                        lauks[i][j].setBackground(BlueLight);
+                        lauks[i][j].setBackground(java.awt.Color.WHITE);
 	                }
 	            }
 	        }
@@ -106,7 +106,7 @@ public class Window extends JFrame{
 	     cell.addKeyListener(new java.awt.event.KeyAdapter() {
 	         @Override
 	         public void keyReleased(java.awt.event.KeyEvent e) {
-	             if (Character.isLetterOrDigit(e.getKeyChar())) {
+	             if (Character.isLetter(e.getKeyChar())) {
 	                 if (isHorizontal) {
 	                     if (c + 1 < lauks[0].length && lauks[r][c + 1].isEditable()) lauks[r][c + 1].requestFocus();
 	                 } else {
