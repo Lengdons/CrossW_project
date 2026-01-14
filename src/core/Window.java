@@ -33,6 +33,7 @@ public class Window extends JFrame{
 	
 	}
 	public void checkA() {
+		boolean allCorrect = true;
 	    for (int i = 0; i < atbildesBoard.length; i++) {
 	        for (int j = 0; j < atbildesBoard[i].length; j++) {
 	            if (atbildesBoard[i][j] != '-') {
@@ -41,13 +42,22 @@ public class Window extends JFrame{
 
 	                if (minejums.equals(atbilde)) {
 	                    lauks[i][j].setBackground(java.awt.Color.GREEN);
-	                } else if (!minejums.isEmpty()) {
+	                } else {
+	                	allCorrect = false;
+	                	if (!minejums.isEmpty()) {
 	                    lauks[i][j].setBackground(java.awt.Color.YELLOW);
+	                } else {
+                        lauks[i][j].setBackground(java.awt.Color.WHITE);
 	                }
 	            }
 	        }
 	    }
 	}
+
+	    if (allCorrect) {
+	        javax.swing.JOptionPane.showMessageDialog(this, "Apsveicam laimētājus!");
+	    }
+}
 	
 	public void initialize() {
 		StringBuilder sb = new StringBuilder();
