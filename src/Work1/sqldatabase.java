@@ -29,7 +29,12 @@ if (!tableExists(conn, "vards")) {
 
  return conn;
 	
-        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "DB kļūda: " + e.getMessage());
+        e.printStackTrace();
+        return null;
+    }
+}
     
 	
 
