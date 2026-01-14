@@ -54,23 +54,47 @@ public class crossword {
 		
 		if(a != null) {
 			a = a.trim();
-		if(!a.isEmpty()) 
+			
+		if(!a.isEmpty() && a.matches("\\p{L}+")) {
 			vards.add(a);
+			continue;
+		}
 		}
 		
 		if (a == null && vards.isEmpty())
-			JOptionPane.showMessageDialog(null, "Ievadi vismaz vienu vardu", "Opa", JOptionPane.WARNING_MESSAGE);
-			
+			return;
 		
-		}while(a != null || vards.isEmpty()); 
+		if (a != null && !a.matches("\\p{L}+") && !(a.isEmpty())) {
+            JOptionPane.showMessageDialog(null, "Vārds drīkst saturēt tikai burtus");
+            continue;
+        }
+		
+		if(a==null) {
+		if (vards.size()<2) {
+			JOptionPane.showMessageDialog(null, "Jabut vismaz diviem vardiem");
+			continue;
+		}
+		break;
+		}
+		
+		if (a.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Nevar but tukss");
+			continue;
+		}
+		
+		}while(true); 
 		
 		//delete 
 		
 		do {
 		a = JOptionPane.showInputDialog(null, teksts+"\nKuru no siem vardiem velies dzest?");
-		vards.remove(a);
+		if(!(vards.size()<3)) vards.remove(a);
+		else if (a!=null && !(a.trim().isEmpty())) JOptionPane.showMessageDialog(null, "Vardu skaits nevar but mazaks par 2", null, JOptionPane.WARNING_MESSAGE);
+		else JOptionPane.showMessageDialog(null, "Nevar but tukss");
 		teksts = String.join("\n", vards);
 		}while(a!=null);
+		
+		//esc nevar but tukss problem
 		
 		//definition
 		
@@ -78,7 +102,17 @@ public class crossword {
 		String def="";
 		
 		for(int i=0; i<vards.size(); i++) {
+			do {
 		a = JOptionPane.showInputDialog(null , vards.get(i)+"\nIevadi definiciju prieks si varda");
+		if (a==null || a.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Definīcija nevar būt tukša",
+                "Kļūda",
+                JOptionPane.WARNING_MESSAGE
+            );
+		}
+			}while (a==null || a.trim().isEmpty());
 		definicijas.add(a);
 		def = def+(i+1+". "+definicijas.get(i)+"\n");
 		}
@@ -94,14 +128,19 @@ public class crossword {
 		int b = Integer.parseInt(a)-1;
 		definicijas.get(b);
 		
+		do {
 		a = (String) JOptionPane.showInputDialog(null, "Redige definiciju prieks "+vards.get(b), "Rediget", JOptionPane.QUESTION_MESSAGE, null, null, definicijas.get(b));
+		if(a != null && !(a.trim().isEmpty()))
 		definicijas.set(b, a);
-		
+		else JOptionPane.showMessageDialog(null, "Definicija nevar but tuksa");
+		}while(a==null || a.trim().isEmpty());
 		def = ""; //lai attiritu ieprieksejas definicijas
 		for(int i=0; i<definicijas.size(); i++) //ielikt jaunas definicijas
 			def = def+(i+1+". "+definicijas.get(i)+"\n");
 		
 		}while(a!=null);
+		
+		//iziet ara no cikla ja neieraksta index error
 		
 		//creation
 		
@@ -150,8 +189,10 @@ public class crossword {
 		if (conn != null) {
             System.out.println("Savienojums veiksmigs");
         }
-		
-		String a = JOptionPane.showInputDialog(null, "1 - Veidot savu crossword \n2 - Izveleties gatavu crossword");
+		String a = "";
+		try {
+			do {
+		a = JOptionPane.showInputDialog(null, "1 - Veidot savu crossword \n2 - Izveleties gatavu crossword");
 		
 		switch (a) {
 		case "1": 
@@ -160,7 +201,11 @@ public class crossword {
 		case "2":
 			izveleties();
 		break;
+		default:
+			JOptionPane.showMessageDialog(null, "Nav tada izvele", null, JOptionPane.WARNING_MESSAGE);
 	}
+			}while(true);
+		}catch(NullPointerException e) {}
 }
 }
 
