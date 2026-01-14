@@ -19,7 +19,7 @@ import core.placedWord;
 public class Window extends JFrame{
 
 	private char[][] atbildesBoard;
-	private JTextField[][] lauks; 
+	private core.CrosswordCell[][] lauks; 
 	private java.util.List<placedWord> vardiList;
 	private java.util.Map<String, String> dictionary; 
 	private boolean isHorizontal = true;
@@ -66,7 +66,7 @@ public class Window extends JFrame{
 		vardiList.sort((a, b) -> (a.row != b.row) ? a.row - b.row : a.col - b.col);
 		setTitle("Krustvārdu Mīkla");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(900, 900); 
+		setSize(1200, 900); 
 	    setLocationRelativeTo(null);
 	    setResizable(false);
 		
@@ -76,87 +76,86 @@ public class Window extends JFrame{
 		JPanel gamePanel = new JPanel(new GridLayout(20, 20)); //20X20 lauks //velak varbut samainit uz pielāgojamu izmēru
 		gamePanel.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK, 2));
 		
-		lauks = new JTextField[atbildesBoard.length][atbildesBoard[0].length];
+		lauks = new core.CrosswordCell[atbildesBoard.length][atbildesBoard[0].length];
 	//secības metode
 		for (int i = 0; i < atbildesBoard.length; i++) {
 	        for (int j = 0; j < atbildesBoard[i].length; j++) {
-	            char letter = atbildesBoard[i][j];
-	            JTextField cell = new JTextField();
-	            cell.setPreferredSize(new java.awt.Dimension(30, 30));
-	            cell.setDocument(new core.CharLimit(1));
-	            cell.setPreferredSize(new Dimension(20, 20));
-	            cell.setHorizontalAlignment(SwingConstants.CENTER);
-	            cell.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
-	            final int r = i;
-	            final int c = j;
+	        	
+	        	char letter = atbildesBoard[i][j];
 
-	  //AutoMove
-	            cell.addKeyListener(new java.awt.event.KeyAdapter() {
-	                @Override
-	                public void keyReleased(java.awt.event.KeyEvent e) {
-	                    if (Character.isLetterOrDigit(e.getKeyChar())) {
-	                        if (isHorizontal) {
-	                            if (c + 1 < lauks[0].length && lauks[r][c + 1].isEditable()) { //pa labi
-	                                lauks[r][c + 1].requestFocus();
-	                            }
-	                        } else {
-	                            if (r + 1 < lauks.length && lauks[r + 1][c].isEditable()) {//uz leju
-	                                lauks[r + 1][c].requestFocus();
-	                            }
-	                        }
-	                    }
-	                    if (e.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) { //dzēst
-	                        if (isHorizontal) {
-	                            if (c - 1 >= 0 && lauks[r][c - 1].isEditable()) {
-	                                lauks[r][c - 1].requestFocus();
-	                            }
-	                        } else {
-	                            if (r - 1 >= 0 && lauks[r - 1][c].isEditable()) {
-	                                lauks[r - 1][c].requestFocus();
-	                            }
-	                        }
-	                    }
-	                    if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-	                        isHorizontal = !isHorizontal; // Saimainit virzienu
-	                        System.out.println("Virziens samainīts: " + (isHorizontal ? "Horizontal" : "Vertical"));
-	                    }
-	                }
-	            });
-	            cell.addMouseListener(new java.awt.event.MouseAdapter() {
-	                @Override
-	                public void mouseClicked(java.awt.event.MouseEvent e) {
-	                    if (e.getClickCount() == 2) {
-	                        isHorizontal = !isHorizontal;
-	                    }
-	                }
-	            });
-	            
-	            String cellNum ="";
-	            	for (core.placedWord pw : vardiList) {
-	            	    if (pw.row == i && pw.col == j && wordNumbers.containsKey(pw.word)) {
-	            	        cellNum = String.valueOf(wordNumbers.get(pw.word));
-	            	    }
-	            	}
-	            	if (letter == '-') {
-	                    cell.setBackground(java.awt.Color.GRAY);
-	                    cell.setEditable(false);
-	                    cell.setBorder(null);
-	                } else {
-	                    cell.setBackground(java.awt.Color.WHITE);
-	                    cell.setEditable(true);
-	                    
-	            	if (!cellNum.isEmpty()) {
-	            	    cell.setBorder(javax.swing.BorderFactory.createTitledBorder(
-	            	        javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK), 
-	            	        cellNum, 
-	            	        0, 2, new java.awt.Font("Arial", java.awt.Font.PLAIN, 10)
-	            	    ));
-	            	} else {
-	            	    cell.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK));
-	            	}
-	           }
-        lauks[i][j] = cell;
-        gamePanel.add(cell);
+	     core.CrosswordCell cell = new core.CrosswordCell();
+	     
+	  Dimension size = new Dimension(25, 25);
+	  	 cell.setPreferredSize(size);
+	  	 cell.setMinimumSize(size); 
+	  	 cell.setMaximumSize(size);
+
+	  	 cell.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+	  	 cell.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+	  	 cell.setDocument(new core.CharLimit(1));
+	     cell.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+	     cell.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+
+	     cell.setDocument(new core.CharLimit(1));
+
+	     final int r = i;
+	     final int c = j;
+
+	     cell.addKeyListener(new java.awt.event.KeyAdapter() {
+	         @Override
+	         public void keyReleased(java.awt.event.KeyEvent e) {
+	             if (Character.isLetterOrDigit(e.getKeyChar())) {
+	                 if (isHorizontal) {
+	                     if (c + 1 < lauks[0].length && lauks[r][c + 1].isEditable()) lauks[r][c + 1].requestFocus();
+	                 } else {
+	                     if (r + 1 < lauks.length && lauks[r + 1][c].isEditable()) lauks[r + 1][c].requestFocus();
+	                 }
+	             }
+	             if (e.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) {
+	                 if (isHorizontal) {
+	                     if (c - 1 >= 0 && lauks[r][c - 1].isEditable()) lauks[r][c - 1].requestFocus();
+	                 } else {
+	                     if (r - 1 >= 0 && lauks[r - 1][c].isEditable()) lauks[r - 1][c].requestFocus();
+	                 }
+	             }
+	             if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+	                 isHorizontal = !isHorizontal;
+	             }
+	         }
+	     });
+
+	     cell.addMouseListener(new java.awt.event.MouseAdapter() {
+	         @Override
+	         public void mouseClicked(java.awt.event.MouseEvent e) {
+	             if (e.getClickCount() == 2) {
+	                 isHorizontal = !isHorizontal;
+	             }
+	         }
+	     });
+	     String cellNum = "";
+	     for (core.placedWord pw : vardiList) {
+	         if (pw.row == i && pw.col == j && wordNumbers.containsKey(pw.word)) {
+	             cellNum = String.valueOf(wordNumbers.get(pw.word));
+	         }
+	     }
+
+	     if (letter == '-') {
+	         cell.setBackground(java.awt.Color.GRAY);
+	         cell.setEditable(false);
+	         cell.setBorder(null);
+	     } else {
+	         cell.setBackground(java.awt.Color.WHITE);
+	         cell.setEditable(true);
+
+	         if (!cellNum.isEmpty()) {
+	             cell.setCellNumber(cellNum);
+	         }
+	         
+	         cell.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK));
+	     }
+
+	     lauks[i][j] = cell;
+	     gamePanel.add(cell);
 	        }
 	    }
 	    topPanel.add(gamePanel);
@@ -176,7 +175,7 @@ public class Window extends JFrame{
 	    
 	    JButton checkPoga = new JButton("Pārbaudīt");
 	    checkPoga.addActionListener(e -> checkA());
-	    checkPoga.setPreferredSize(new Dimension(120, 30));
+	    checkPoga.setPreferredSize(new Dimension(100, 30));
 	    
 	    JButton exitPoga = new JButton("Iziet");
 	    exitPoga.setPreferredSize(new Dimension(100, 30));
@@ -187,9 +186,9 @@ public class Window extends JFrame{
 	    bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 	    JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, bottomPanel);
-	    splitPane.setDividerLocation(410); 
+	    splitPane.setDividerLocation(510); 
 	    splitPane.setEnabled(false);       
-	    splitPane.setDividerSize(1);       
+	    splitPane.setDividerSize(2);       
 
 	    add(splitPane);
 	}
