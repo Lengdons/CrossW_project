@@ -1,5 +1,8 @@
 curl.exe -o latviesu_vardi_2024.xml https://repository.clarin.lv/repository/xmlui/bitstream/handle/20.500.12574/95/mlvv_2024_1_tei.xml
 
+
+XAMPP -> https://www.apachefriends.org/download.html
+
 Lai izmantotu datubāzi ir nepieciešams ielādēt xampp. Pēc tam atvērt xampp un uzspiest Start uz MySQL un Apache.
 Kad Apache un MySQL rādas kā zaļā krāsa un poga ir nomainīta uz "Stop" tad ie jāiet uz phpmyadmin izmantojo pogu Admin, blakus MySQL.
 Kad atrodaties uz phpymsql jums ir jāiet uz Import un tad jaimportē vards.sql fails tur iekšā.
