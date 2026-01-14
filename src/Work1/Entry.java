@@ -17,4 +17,4 @@ public class Entry {
     public String getDef() {
         return def;
     }
-}
+}..
