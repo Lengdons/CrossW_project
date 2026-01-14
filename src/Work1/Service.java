@@ -21,7 +21,7 @@ public class Service {
             }
 
            
-            CrosswordGrid.grid(words, defs);
+            Grid.grid(words, defs);
 
         } catch (Exception e) {
             e.printStackTrace();
