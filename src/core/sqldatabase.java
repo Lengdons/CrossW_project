@@ -71,17 +71,13 @@ private static void runSqlFile(Connection conn, String sqlDumpPath) throws Excep
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
         String line;
         while ((line = br.readLine()) != null) {
-            // Skip comments
             if (line.startsWith("--") || line.startsWith("/*") || line.trim().isEmpty()) continue;
-            
-            sb.append(line).append("\n"); // Add newline to prevent syntax errors
-            
-            // If line ends with semicolon, execute the buffer
+            sb.append(line).append("\n");
             if (line.trim().endsWith(";")) {
                 try (Statement st = conn.createStatement()) {
                     st.execute(sb.toString());
                 }
-                sb.setLength(0); // Clear buffer for next command
+                sb.setLength(0);
             }
         }
     }

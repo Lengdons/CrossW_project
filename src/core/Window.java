@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,7 +22,6 @@ public class Window extends JFrame{
 	private final Color Green1 = new Color(152, 247, 148);
 	private final Color Yellow1 = new Color(247, 244, 148);
 	private final Color BlueLight = new Color(189, 202, 240);
-	private final Color BlueDarker = new Color(139, 142, 247);
 	private final Color Gray1 = new Color(214, 214, 214);
 	
 	public Window(KrustvarduMikla game, java.util.Map<String, String> dictionary) {
