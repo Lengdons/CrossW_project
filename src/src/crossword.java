@@ -44,7 +44,7 @@ public class crossword {
 		do {
 		teksts = String.join("\n", vards); //lieto lai nebutu [] un , kas rodas ja izmanto arraylist vards nevis atsevisku string
 		
-		if(teksts.isEmpty())
+		if (teksts.isEmpty())
 			msg = "Ieraksti vardu";
 		else
 			msg = teksts+"\nIeraksti vardu";
@@ -54,8 +54,12 @@ public class crossword {
 		
 		if(a != null) {
 			a = a.trim();
-			
-		if(!a.isEmpty() && a.matches("\\p{L}+")) {
+		
+		if(a.length()<2 && a.length()>=1) {
+			JOptionPane.showMessageDialog(null, "Vardam jabut lielakam par 1");
+			continue;
+		}
+		if (!a.isEmpty() && a.matches("\\p{L}+") && a.length()>1) {
 			vards.add(a);
 			continue;
 		}
@@ -69,7 +73,7 @@ public class crossword {
             continue;
         }
 		
-		if(a==null) {
+		if (a==null) {
 		if (vards.size()<2) {
 			JOptionPane.showMessageDialog(null, "Jabut vismaz diviem vardiem");
 			continue;
@@ -81,6 +85,7 @@ public class crossword {
 			JOptionPane.showMessageDialog(null, "Nevar but tukss");
 			continue;
 		}
+		
 		
 		}while(true); 
 		
