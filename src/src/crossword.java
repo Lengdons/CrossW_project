@@ -52,54 +52,103 @@ public class crossword {
 		
 		a = JOptionPane.showInputDialog(null, msg);
 		
-		if(a != null) {
-			a = a.trim();
-		
-		if(a.length()<2 && a.length()>=1) {
-			JOptionPane.showMessageDialog(null, "Vardam jabut lielakam par 1");
-			continue;
-		}
-		if (!a.isEmpty() && a.matches("\\p{L}+") && a.length()>1) {
-			vards.add(a);
-			continue;
-		}
-		}
-		
-		if (a == null && vards.isEmpty())
-			return;
-		
-		if (a != null && !a.matches("\\p{L}+") && !(a.isEmpty())) {
-            JOptionPane.showMessageDialog(null, "Vārds drīkst saturēt tikai burtus");
-            continue;
-        }
-		
-		if (a==null) {
-		if (vards.size()<2) {
-			JOptionPane.showMessageDialog(null, "Jabut vismaz diviem vardiem");
-			continue;
-		}
-		break;
-		}
-		
-		if (a.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Nevar but tukss");
-			continue;
-		}
 		
 		
-		}while(true); 
+		 // ESC / Cancel
+	    if (a == null) {
+
+	        // 0 vārdi → atpakaļ uz galveno izvēlni
+	        if (vards.isEmpty()) {
+	            return;
+	        }
+
+	        // 1 vārds → kļūda
+	        if (vards.size() == 1) {
+	            JOptionPane.showMessageDialog(
+	                null,
+	                "Jābūt vismaz diviem vārdiem",
+	                "Kļūda",
+	                JOptionPane.WARNING_MESSAGE
+	            );
+	            continue;
+	        }
+
+	        // 2+ vārdi → pabeigt ievadi
+	        break;
+	    }
+
+	    a = a.trim();
+
+	    if (a.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Nevar būt tukšs");
+	        continue;
+	    }
+
+	    if (!a.matches("\\p{L}+")) {
+	        JOptionPane.showMessageDialog(null, "Vārds drīkst saturēt tikai burtus");
+	        continue;
+	    }
+
+	    if (a.length() < 2) {
+	        JOptionPane.showMessageDialog(null, "Vārdam jābūt vismaz 2 burtus garam");
+	        continue;
+	    }
+
+	    boolean jauIr = false;
+
+	    for (String v : vards) {
+	        if (v.equalsIgnoreCase(a)) {
+	            jauIr = true;
+	            break;
+	        }
+	    }
+
+	    if (jauIr) {
+	        JOptionPane.showMessageDialog(null, "Šāds vārds jau ir ievadīts!");
+	        continue;
+	    }
+
+	    vards.add(a);
+
+
+	} while (true);
 		
 		//delete 
 		
 		do {
 		a = JOptionPane.showInputDialog(null, teksts+"\nKuru no siem vardiem velies dzest?");
-		if(!(vards.size()<3)) vards.remove(a);
-		else if (a!=null && !(a.trim().isEmpty())) JOptionPane.showMessageDialog(null, "Vardu skaits nevar but mazaks par 2", null, JOptionPane.WARNING_MESSAGE);
-		else JOptionPane.showMessageDialog(null, "Nevar but tukss");
+
+		if (a == null) break;
+
+		a = a.trim();
+
+		if (a.isEmpty()) {
+		    JOptionPane.showMessageDialog(null, "Nevar būt tukšs");
+		    continue;
+		}
+		boolean atrasts = false;
+
+		for (int i=0; i<vards.size(); i++) {
+		    if (vards.get(i).equalsIgnoreCase(a)) {
+
+		        if (vards.size() <= 2) {
+		            JOptionPane.showMessageDialog(null, "Vārdu skaits nevar būt mazāks par 2", "Kļūda", JOptionPane.WARNING_MESSAGE
+		            );
+		        } else {
+		            vards.remove(i);
+		        }
+		        atrasts = true;
+		        break;
+		    }
+		}
+
+		if (!atrasts) {
+		    JOptionPane.showMessageDialog(null, "Šāds vārds neeksistē!");
+		}
+
+		teksts = String.join("\n", vards);
 		teksts = String.join("\n", vards);
 		}while(a!=null);
-		
-		//esc nevar but tukss problem
 		
 		//definition
 		
@@ -125,13 +174,39 @@ public class crossword {
 		//edit
 		
 		do {
+		
 		a = JOptionPane.showInputDialog(def+"Kuru no siem definicijam velies rediget?");
 		
 		if(a==null)
-		break;
+			break;
+		
+		if (!a.matches("\\d+")) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Ievadi numuru",
+	            "Kļūda",
+	            JOptionPane.WARNING_MESSAGE
+	        );
+	        continue;
+	    }
+		
 			
 		int b = Integer.parseInt(a)-1;
+		
+		if (b < 0 || b >= definicijas.size()) {
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Šāds definīcijas numurs neeksistē",
+	            "Kļūda",
+	            JOptionPane.WARNING_MESSAGE
+	        );
+	        continue;
+	    }
+		
+	
+		
 		definicijas.get(b);
+		
 		
 		do {
 		a = (String) JOptionPane.showInputDialog(null, "Redige definiciju prieks "+vards.get(b), "Rediget", JOptionPane.QUESTION_MESSAGE, null, null, definicijas.get(b));
