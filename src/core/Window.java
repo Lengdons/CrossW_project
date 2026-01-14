@@ -71,6 +71,8 @@ public class Window extends JFrame{
 	        for (int j = 0; j < atbildesBoard[i].length; j++) {
 	            char letter = atbildesBoard[i][j];
 	            JTextField cell = new JTextField();
+	            cell.setPreferredSize(new java.awt.Dimension(30, 30));
+	            cell.setDocument(new core.CharLimit(1));
 	            cell.setPreferredSize(new Dimension(20, 20));
 	            cell.setHorizontalAlignment(SwingConstants.CENTER);
 	            cell.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
