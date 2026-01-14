@@ -1,20 +1,16 @@
 package core;
 
 import java.awt.BorderLayout;
-import java.util.List;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import core.KrustvarduMikla;
-import core.placedWord;
 
 public class Window extends JFrame{
 
@@ -23,6 +19,12 @@ public class Window extends JFrame{
 	private java.util.List<placedWord> vardiList;
 	private java.util.Map<String, String> dictionary; 
 	private boolean isHorizontal = true;
+//KRĀSU PALETE
+	private final Color Green1 = new Color(152, 247, 148);
+	private final Color Yellow1 = new Color(247, 244, 148);
+	private final Color BlueLight = new Color(189, 202, 240);
+	private final Color BlueDarker = new Color(139, 142, 247);
+	private final Color Gray1 = new Color(214, 214, 214);
 	
 	public Window(KrustvarduMikla game, java.util.Map<String, String> dictionary) {
         this.atbildesBoard = game.getBoard();     
@@ -41,13 +43,13 @@ public class Window extends JFrame{
 	                String atbilde = String.valueOf(atbildesBoard[i][j]);
 
 	                if (minejums.equals(atbilde)) {
-	                    lauks[i][j].setBackground(java.awt.Color.GREEN);
+	                    lauks[i][j].setBackground(Green1);
 	                } else {
 	                	allCorrect = false;
 	                	if (!minejums.isEmpty()) {
-	                    lauks[i][j].setBackground(java.awt.Color.YELLOW);
+	                    lauks[i][j].setBackground(Yellow1);
 	                } else {
-                        lauks[i][j].setBackground(java.awt.Color.WHITE);
+                        lauks[i][j].setBackground(BlueLight);
 	                }
 	            }
 	        }
@@ -71,7 +73,7 @@ public class Window extends JFrame{
 	    setResizable(false);
 		
 		JPanel topPanel = new JPanel(new java.awt.GridBagLayout());
-		topPanel.setBackground(java.awt.Color.WHITE);
+		topPanel.setBackground(BlueLight);
 		
 		JPanel gamePanel = new JPanel(new GridLayout(20, 20)); //20X20 lauks //velak varbut samainit uz pielāgojamu izmēru
 		gamePanel.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.BLACK, 2));
@@ -140,7 +142,7 @@ public class Window extends JFrame{
 	     }
 
 	     if (letter == '-') {
-	         cell.setBackground(java.awt.Color.GRAY);
+	         cell.setBackground(Gray1);
 	         cell.setEditable(false);
 	         cell.setBorder(null);
 	     } else {
