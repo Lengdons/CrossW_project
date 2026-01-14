@@ -26,7 +26,7 @@ public class MenuWindow extends JFrame {
         gbc.gridy = 0;
         add(titleLabel, gbc);
 
-        JButton playBtn = createStyledButton("Spēlēt (SQL)");
+        JButton playBtn = createStyledButton("Spēlēt");
         playBtn.addActionListener(e -> {
             java.sql.Connection conn = sqldatabase.getConnection();
             
@@ -36,7 +36,7 @@ public class MenuWindow extends JFrame {
                 if (!dbWords.isEmpty()) {
                     startTheGame(dbWords);
                 } else {
-                    JOptionPane.showMessageDialog(this, "Datubāze ir tukša! (Database is empty)");
+                    JOptionPane.showMessageDialog(this, "Datubāze ir tukša!");
                 }
             }
         });
