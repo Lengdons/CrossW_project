@@ -83,49 +83,71 @@ public class CrosswordGenerator {
         return false;
     }
 	
-	public KrustvarduMikla generate(List<String> WORDS, int size) {
+	public KrustvarduMikla generate(List<String> words, int size) {
 	    char[][] board = new char[size][size];
-	    List<placedWord> placedList = new ArrayList<>(); // The new list to track words
+	    List<placedWord> placedList = new ArrayList<>();
 	    Random rand = new Random();
-	    
+
 	    for (int i = 0; i < size; i++) {
-	        for (int j = 0; j < size; j++) {
-	            board[i][j] = '-';
+	        for (int j = 0; j < size; j++) board[i][j] = '-';
+	    }
+
+	    if (!words.isEmpty()) {
+	        String first = words.get(0);
+	        int startRow = size / 3;
+	        int startCol = (size / 3) - (first.length() / 2);
+	        
+	        placeWord(board, first, startRow, startCol, false);
+	        placedList.add(new placedWord(first, startRow, startCol, false));
+	    }
+	    
+	    for (int i = 1; i < words.size(); i++) {
+	        String wordToPlace = words.get(i);
+	        boolean placed = false;
+	        
+	        java.util.Collections.shuffle(placedList);
+	        
+	        searchLoop:
+	        for (placedWord existing : placedList) {
+	            String existingWord = existing.word;
+	            
+// kopīgais burts ?
+	            for (int j = 0; j < wordToPlace.length(); j++) {
+	                char letterNew = wordToPlace.charAt(j);
+
+	                for (int k = 0; k < existingWord.length(); k++) {
+	                    char letterExisting = existingWord.charAt(k);
+//ja kopīgs
+	                    if (letterNew == letterExisting) {
+	                    	
+	                        int intersectRow = existing.row + (existing.isVertical ? k : 0);
+	                        int intersectCol = existing.col + (existing.isVertical ? 0 : k);
+
+	                        boolean newIsVertical = !existing.isVertical;
+	                        
+	                        int newStartRow = intersectRow - (newIsVertical ? j : 0);
+	                        int newStartCol = intersectCol - (newIsVertical ? 0 : j);
+	                        
+	                        if (newStartRow < 0 || newStartCol < 0 || 
+	                        	    (newIsVertical ? newStartRow + wordToPlace.length() : newStartRow) > board.length ||
+	                        	    (!newIsVertical ? newStartCol + wordToPlace.length() : newStartCol) > board.length) {
+	                        	    continue; 
+	                        	}
+
+	                        if (placeWord(board, wordToPlace, newStartRow, newStartCol, newIsVertical)) {
+	                            placedList.add(new placedWord(wordToPlace, newStartRow, newStartCol, newIsVertical));
+	                            placed = true;
+	                            break searchLoop;
+	                            
+	                        }
+	                    }
+	                }
+	            }
 	        }
 	    }
-// Pirmā vārda enkurs (horizontāli)
-		String firstWord = WORDS.get(0);
-			
-		int startRow = size/2;
-		int startCol = (size/2) - (firstWord.length()/2);
-		
-		placeWord(board, firstWord, startRow, startCol, false);
-		
-// 		Pirmā vārda enkurs (vertikāli)
-//	int startRow = (size/2) - (firstWord.length()/2);
-//	int startCol = size/2;
-//	placeWord(board, firstWord, startRow, startCol, true);
-		
-	for (int i = 1; i < WORDS.size(); i++) {
-        String currentWord = WORDS.get(i);
-        boolean placed = false;
-        int attempts = 0;
 
-        while (!placed && attempts < 100) {
-            int r = rand.nextInt(size);
-            int c = rand.nextInt(size);
-            boolean isVertical = rand.nextBoolean();
-
-            if (placeWord(board, currentWord, r, c, isVertical)) {
-                placed = true;
-      //reģistrē pareizo 
-                placedList.add(new placedWord(currentWord, r, c, isVertical)); 
-            }
-            attempts++;
-        }
-    }
-    return new KrustvarduMikla(board, placedList); //return'o lauku un listi
-}
+	    return new KrustvarduMikla(board, placedList);
+	}
 }
 	
 
