@@ -34,7 +34,15 @@ public class MenuWindow extends JFrame {
                 Map<String, String> dbWords = sqldatabase.getGameWords(conn);
                 
                 if (!dbWords.isEmpty()) {
-                    startTheGame(dbWords);
+                	java.util.List<String> keys = new java.util.ArrayList<>(dbWords.keySet());
+                	java.util.Collections.shuffle(keys);
+                	Map<String, String> gameWords = new HashMap<>();
+                	int wordLimit = Math.min(25, keys.size());
+                	for (int i = 0; i < wordLimit; i++) {
+                        String key = keys.get(i);
+                        gameWords.put(key, dbWords.get(key));
+                    }
+                    startTheGame(gameWords);
                 } else {
                     JOptionPane.showMessageDialog(this, "Datubāze ir tukša!");
                 }
@@ -91,6 +99,6 @@ public class MenuWindow extends JFrame {
         KrustvarduMikla game = builder.generate(words, 20);
 
         new Window(game, dictionary).setVisible(true);
-        this.dispose(); // Close the menu
+        this.dispose(); 
     }
 }
