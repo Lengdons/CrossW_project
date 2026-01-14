@@ -1,6 +1,6 @@
 package Work1;
 
-public class sqldatabase {
+
 
 	import java.sql.*;
 	import java.util.ArrayList;
@@ -11,6 +11,20 @@ public class sqldatabase {
 	import java.nio.file.Path;
 	
 	
+	public class sqldatabase {
 	
-	
+private static final String URL = "jdbc:mysql://localhost:3306/crossword?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8";
+private static final String USER = "root";
+private static final String PASSWORD = "";
+private static final String SQL_DUMP_PATH = "vards_clean.sql";
 }
+
+
+
+
+
+
+
+
+
+
