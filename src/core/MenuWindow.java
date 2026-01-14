@@ -28,8 +28,17 @@ public class MenuWindow extends JFrame {
 
         JButton playBtn = createStyledButton("Spēlēt");
         playBtn.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "OOOOPs SQL nav Pievienots");
+            java.sql.Connection conn = sqldatabase.getConnection();
             
+            if (conn != null) {
+                Map<String, String> dbWords = sqldatabase.getGameWords(conn);
+                
+                if (!dbWords.isEmpty()) {
+                    startTheGame(dbWords);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Datubāze ir tukša!");
+                }
+            }
         });
         gbc.gridy = 1;
         add(playBtn, gbc);
