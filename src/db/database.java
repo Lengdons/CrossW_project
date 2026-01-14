@@ -9,6 +9,7 @@ public class database {
     private static final String URL = "jdbc:mysql://localhost:3306/Crossword";
     private static final String USER = "root";
     private static final String PASSWORD = ""; // default for XAMPP
+    private static final String SQL_DUMP_PATH = "vards_clean.sql";
 
     // Method to get connection
     public static Connection getConnection() {
