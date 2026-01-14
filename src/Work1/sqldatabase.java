@@ -43,14 +43,19 @@ private static boolean tableExists(Connection conn, String tableName) throws SQL
     }
 }
 
-private static boolean tableExists(Connection conn, String string) {
-	// TODO Auto-generated method stub
-	return false;
+private static void runSqlFile(Connection conn, String sqlDumpPath) throws Exception {
+    String script = Files.readString(Path.of(sqlDumpPath), StandardCharsets.UTF_8);
+
+    try (Statement st = conn.createStatement()) {
+        for (String part : script.split(";")) {
+            String sql = part.trim();
+            if (!sql.isEmpty()) {
+                st.execute(sql);
+            }
+        }
+    }
 }
-	}
-	
-
-
+}
 
 
 
