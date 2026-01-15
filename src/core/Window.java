@@ -131,7 +131,6 @@ public class Window extends JFrame{
 	     final int c = j;
 
 	     cell.addKeyListener(new java.awt.event.KeyAdapter() {
-	    	    @Override
 	    	    public void keyReleased(java.awt.event.KeyEvent e) {
 	    	        int key = e.getKeyCode();
 
@@ -170,7 +169,6 @@ public class Window extends JFrame{
 
 
 	     cell.addMouseListener(new java.awt.event.MouseAdapter() {
-	         @Override
 	         public void mouseClicked(java.awt.event.MouseEvent e) {
 	             if (e.getClickCount() == 2) {
 	                 isHorizontal = !isHorizontal;

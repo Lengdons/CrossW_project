@@ -14,8 +14,6 @@ public class CrosswordCell extends JTextField {
         this.cellNumber = num;
         repaint(); // Refresh'o šunu
     }
-
-    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); 
 
