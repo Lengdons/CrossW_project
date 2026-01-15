@@ -1,5 +1,5 @@
 package core;
-
+//Gustavs
 // konteineris vārdam
 public class placedWord {
 	public String word;

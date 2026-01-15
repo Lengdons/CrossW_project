@@ -1,5 +1,5 @@
 package core;
-
+//Rihards
 import javax.swing.SwingUtilities;
 
 public class Main {

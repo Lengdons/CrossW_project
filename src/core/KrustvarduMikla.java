@@ -1,5 +1,5 @@
 package core;
-
+//Rihards
 import java.util.List;
 
 public class KrustvarduMikla {
