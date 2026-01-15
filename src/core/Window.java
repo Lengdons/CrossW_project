@@ -71,6 +71,7 @@ public class Window extends JFrame{
 	    if (allCorrect) {
 	    	puzzleCompleted = true;
 	        javax.swing.JOptionPane.showMessageDialog(this, "Apsveicam laimētājus!");
+	        lockBoard();
 	    }
 }
 	
