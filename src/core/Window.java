@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -18,6 +20,8 @@ public class Window extends JFrame{
 	private java.util.List<placedWord> vardiList;
 	private java.util.Map<String, String> dictionary; 
 	private boolean isHorizontal = true;
+	private JTextArea definitionsArea;
+	private boolean puzzleCompleted = false;
 //KRĀSU PALETE
 	private final Color Green1 = new Color(152, 247, 148);
 	private final Color Yellow1 = new Color(247, 244, 148);
@@ -29,6 +33,14 @@ public class Window extends JFrame{
         this.vardiList = game.getPlacedWords();
         this.dictionary = dictionary;
 		
+        if (!game.getFailedWords().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Nevarēja ievietot šos vārdus:\n" +
+                    String.join(", ", game.getFailedWords()),
+                    "Brīdinājums",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+        
 	initialize();
 	
 	}
@@ -53,11 +65,28 @@ public class Window extends JFrame{
 	        }
 	    }
 	}
+	    
+
 
 	    if (allCorrect) {
+	    	puzzleCompleted = true;
 	        javax.swing.JOptionPane.showMessageDialog(this, "Apsveicam laimētājus!");
 	    }
 }
+	
+	
+    private void showCorrectAnswers() {
+        for (int i = 0; i < atbildesBoard.length; i++) {
+            for (int j = 0; j < atbildesBoard[i].length; j++) {
+
+                if (atbildesBoard[i][j] != '-') {
+                    lauks[i][j].setText(String.valueOf(atbildesBoard[i][j]));
+                    lauks[i][j].setBackground(Green1);
+                    lauks[i][j].setEditable(false);
+                }
+            }
+        }
+    }
 	
 	public void initialize() {
 		StringBuilder sb = new StringBuilder();
@@ -102,33 +131,53 @@ public class Window extends JFrame{
 	     final int c = j;
 
 	     cell.addKeyListener(new java.awt.event.KeyAdapter() {
-	         @Override
-	         public void keyReleased(java.awt.event.KeyEvent e) {
-	             if (Character.isLetter(e.getKeyChar())) {
-	                 if (isHorizontal) {
-	                     if (c + 1 < lauks[0].length && lauks[r][c + 1].isEditable()) lauks[r][c + 1].requestFocus();
-	                 } else {
-	                     if (r + 1 < lauks.length && lauks[r + 1][c].isEditable()) lauks[r + 1][c].requestFocus();
-	                 }
-	             }
-	             if (e.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) {
-	                 if (isHorizontal) {
-	                     if (c - 1 >= 0 && lauks[r][c - 1].isEditable()) lauks[r][c - 1].requestFocus();
-	                 } else {
-	                     if (r - 1 >= 0 && lauks[r - 1][c].isEditable()) lauks[r - 1][c].requestFocus();
-	                 }
-	             }
-	             if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-	                 isHorizontal = !isHorizontal;
-	             }
-	         }
-	     });
+	    	    @Override
+	    	    public void keyReleased(java.awt.event.KeyEvent e) {
+	    	        int key = e.getKeyCode();
+
+	    	        // parvieto uz nakoso burtu
+	    	        if (Character.isLetter(e.getKeyChar())) {
+	    	            if (isHorizontal) {
+	    	                if (c + 1 < lauks[0].length && lauks[r][c + 1].isEditable()) {
+	    	                    lauks[r][c + 1].requestFocus();
+	    	                }
+	    	            } else {
+	    	                if (r + 1 < lauks.length && lauks[r + 1][c].isEditable()) {
+	    	                    lauks[r + 1][c].requestFocus();
+	    	                }
+	    	            }
+	    	        }
+
+	    	        // backspace
+	    	        if (key == java.awt.event.KeyEvent.VK_BACK_SPACE) {
+	    	            if (isHorizontal) {
+	    	                if (c - 1 >= 0 && lauks[r][c - 1].isEditable()) {
+	    	                    lauks[r][c - 1].requestFocus();
+	    	                }
+	    	            } else {
+	    	                if (r - 1 >= 0 && lauks[r - 1][c].isEditable()) {
+	    	                    lauks[r - 1][c].requestFocus();
+	    	                }
+	    	            }
+	    	        }
+
+	    	        // Enter prieks parbaudit
+	    	        if (key == java.awt.event.KeyEvent.VK_ENTER) {
+	    	            checkA(); 
+	    	        }
+	    	    }
+	    	});
+
 
 	     cell.addMouseListener(new java.awt.event.MouseAdapter() {
 	         @Override
 	         public void mouseClicked(java.awt.event.MouseEvent e) {
 	             if (e.getClickCount() == 2) {
 	                 isHorizontal = !isHorizontal;
+	                 if(!isHorizontal) {
+	                 System.out.println("Vertikāli");
+	                 }else
+	                 System.out.println("Horizontāli");
 	             }
 	         }
 	     });
@@ -143,6 +192,7 @@ public class Window extends JFrame{
 	         cell.setBackground(Gray1);
 	         cell.setEditable(false);
 	         cell.setBorder(null);
+	         cell.setFocusable(false);
 	     } else {
 	         cell.setBackground(java.awt.Color.WHITE);
 	         cell.setEditable(true);
@@ -162,10 +212,11 @@ public class Window extends JFrame{
 	    
 	    JPanel bottomPanel = new JPanel(new BorderLayout());
 //definiciju lauks
-	    JTextArea definitionsArea = new JTextArea();
+	    definitionsArea = new JTextArea();
 	    
 	    definitionsArea.setText(sb.toString()); 
 	    definitionsArea.setEditable(false);
+	    definitionsArea.setFocusable(false);
 	    definitionsArea.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
 	    definitionsArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
 //pogas
@@ -176,10 +227,25 @@ public class Window extends JFrame{
 	    JButton checkPoga = new JButton("Pārbaudīt");
 	    checkPoga.addActionListener(e -> checkA());
 	    checkPoga.setPreferredSize(new Dimension(100, 30));
+	    getRootPane().setDefaultButton(checkPoga);
 	    
 	    JButton exitPoga = new JButton("Iziet");
 	    exitPoga.setPreferredSize(new Dimension(100, 30));
-	    exitPoga.addActionListener(e -> System.exit(0)); 
+	    exitPoga.addActionListener(e -> {
+	    	if(!puzzleCompleted) {
+	        showSolutionsInDefinitions();  // parāda kādiem bija jābut pareiziem vārdiem
+	        lockBoard();                   // bloķē board
+
+	        for (var l : exitPoga.getActionListeners()) {
+	            exitPoga.removeActionListener(l);
+	        }
+
+	        exitPoga.addActionListener(ev -> System.exit(0));
+	    	}else System.exit(0);
+	    });
+
+
+
 
 	    buttonPanel.add(checkPoga);
 	    buttonPanel.add(exitPoga);
@@ -219,4 +285,50 @@ public class Window extends JFrame{
 	    }
 	    return map;
 	}
+	
+	private void showSolutionsInDefinitions() {
+	    StringBuilder sb = new StringBuilder();
+
+	    java.util.Map<String, Integer> map = setupWordOrdering(new StringBuilder());
+
+	    sb.append("HORIZONTĀLI:\n");
+	    for (placedWord pw : vardiList) {
+	        if (!pw.isVertical) {
+	            sb.append(map.get(pw.word))
+	              .append(". ")
+	              .append(dictionary.get(pw.word))
+	              .append("  →  ")
+	              .append(pw.word)
+	              .append("\n");
+	        }
+	    }
+
+	    sb.append("\nVERTIKĀLI:\n");
+	    for (placedWord pw : vardiList) {
+	        if (pw.isVertical) {
+	            sb.append(map.get(pw.word))
+	              .append(". ")
+	              .append(dictionary.get(pw.word))
+	              .append("  →  ")
+	              .append(pw.word)
+	              .append("\n");
+	        }
+	    }
+
+	    definitionsArea.setText(sb.toString());
+	}
+	
+	private void lockBoard() {
+	    for (int i = 0; i < lauks.length; i++) {
+	        for (int j = 0; j < lauks[i].length; j++) {
+	            if (lauks[i][j].isEditable()) {
+	                lauks[i][j].setEditable(false);
+	                lauks[i][j].setEnabled(false);
+	                lauks[i][j].setBackground(new Color(230, 230, 230)); // pelēks
+	            }
+	        }
+	    }
+	}
+
+
 }

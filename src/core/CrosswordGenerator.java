@@ -86,7 +86,8 @@ public class CrosswordGenerator {
 	public KrustvarduMikla generate(List<String> words, int size) {
 	    char[][] board = new char[size][size];
 	    List<placedWord> placedList = new ArrayList<>();
-	    Random rand = new Random();
+	    List<String> failedWords = new ArrayList<>();
+	    
 
 	    for (int i = 0; i < size; i++) {
 	        for (int j = 0; j < size; j++) board[i][j] = '-';
@@ -144,9 +145,11 @@ public class CrosswordGenerator {
 	                }
 	            }
 	        }
+	        
+	        if (!placed) failedWords.add(wordToPlace);
 	    }
 
-	    return new KrustvarduMikla(board, placedList);
+	    return new KrustvarduMikla(board, placedList, failedWords);
 	}
 }
 	
