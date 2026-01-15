@@ -28,24 +28,47 @@ public class MenuWindow extends JFrame {
 
         JButton playBtn = createStyledButton("Spēlēt");
         playBtn.addActionListener(e -> {
+
+            String[] options = {"Viegls", "Vidējs", "Grūts"};
+
+            int choice = JOptionPane.showOptionDialog(
+                    this,
+                    "Izvēlies crossword grūtības pakāpi:",
+                    "Grūtības izvēle",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+
+            if (choice == -1) return;
+
+            String pakape;
+            switch (choice) {
+                case 0: pakape = "viegli"; break;
+                case 1: pakape = "videji"; break;
+                default: pakape = "gruti";
+            }
             java.sql.Connection conn = sqldatabase.getConnection();
-            
             if (conn != null) {
-                Map<String, String> dbWords = sqldatabase.getGameWords(conn);
-                
-                if (!dbWords.isEmpty()) {
-                	java.util.List<String> keys = new java.util.ArrayList<>(dbWords.keySet());
-                	java.util.Collections.shuffle(keys);
-                	Map<String, String> gameWords = new HashMap<>();
-                	int wordLimit = Math.min(25, keys.size());
-                	for (int i = 0; i < wordLimit; i++) {
-                        String key = keys.get(i);
-                        gameWords.put(key, dbWords.get(key));
-                    }
-                    startTheGame(gameWords);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Datubāze ir tukša!");
+                Map<String, String> dbWords =
+                        sqldatabase.getGameWordsByDifficulty(conn, pakape);
+                if (dbWords.size() < 5) {
+                    JOptionPane.showMessageDialog(this,
+                            "Nav pietiekami daudz vārdu šai grūtībai!");
+                    return;
                 }
+                // Izveles 10 Random vardus
+                java.util.List<String> keys = new java.util.ArrayList<>(dbWords.keySet());
+                java.util.Collections.shuffle(keys);
+                Map<String, String> gameWords = new HashMap<>();
+                int limit = Math.min(10, keys.size());
+                for (int i = 0; i < limit; i++) {
+                    String key = keys.get(i);
+                    gameWords.put(key, dbWords.get(key));
+                }
+                startTheGame(gameWords);
             }
         });
         gbc.gridy = 1;

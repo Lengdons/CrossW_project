@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -41,25 +42,28 @@ public static Connection getConnection() {
     return conn;
 }
 
-public static Map<String, String> getGameWords(Connection conn) {
+public static Map<String, String> getGameWordsByDifficulty(Connection conn, String lvl) {
     Map<String, String> dictionary = new HashMap<>();
-    String query = "SELECT vards, definicija FROM vards"; 
 
-    try (Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(query)) {
-        
+    String sql = "SELECT vards, definicija FROM vards WHERE lvl = ?";
+
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, lvl);
+        ResultSet rs = ps.executeQuery();
+
         while (rs.next()) {
-            String word = rs.getString("vards");
-            String desc = rs.getString("definicija");
-            if (word != null && desc != null) {
-                dictionary.put(word.toUpperCase(), desc);
-            }
+            dictionary.put(
+                rs.getString("vards").toUpperCase(),
+                rs.getString("definicija")
+            );
         }
     } catch (SQLException e) {
         e.printStackTrace();
     }
+
     return dictionary;
 }
+
 private static void runSqlFile(Connection conn, String sqlDumpPath) throws Exception {
     File file = new File(sqlDumpPath);
     if (!file.exists()) {
